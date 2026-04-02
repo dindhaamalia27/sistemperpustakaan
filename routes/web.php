@@ -42,7 +42,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
    Route::get('/buku/create', [PetugasBukuController::class, 'create'])->name('buku.create');
    Route::post('/buku/store', [PetugasBukuController::class, 'store'])->name('buku.store');
    Route::get('/buku/detail/{id}', [PetugasBukuController::class, 'detail'])->name('buku.detail');
-   Route::delete('/buku/{id}', [PetugasBukuController::class, 'destroy'])->name('buku.delete');
+   Route::delete('/buku/{id}', [PetugasBukuController::class, 'delete'])->name('buku.delete');
 
    Route::get('/buku/edit/{id}', [PetugasBukuController::class, 'edit'])->name('buku.edit');
    Route::put('/buku/update/{id}', [PetugasBukuController::class, 'update'])->name('buku.update');

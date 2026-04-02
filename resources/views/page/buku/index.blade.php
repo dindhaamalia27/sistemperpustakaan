@@ -26,6 +26,29 @@
 
 @php $search = strtolower(request('search')); @endphp
 
+{{-- ✅ TAMPILKAN DATA DARI PETUGAS --}}
+@foreach($buku as $item)
+<div class="col-md-3 mb-4">
+    <div class="card text-center shadow-sm p-3 border-0"
+         style="border-radius:15px; background:#f1f1f1;">
+
+        <img src="{{ asset('storage/' . $item->foto) }}"
+             class="mx-auto mb-2"
+             style="width:90px; height:130px; object-fit:cover;">
+
+        <p class="mb-2">{{ $item->judul }}</p>
+
+        <div>
+            <a href="/buku/{{ $item->id }}/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            <a href="/buku/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
+        </div>
+    </div>
+</div>
+@endforeach
+
+{{-- ✅ TAMBAHAN: SEMBUNYIKAN YANG ATAS --}}
+@if($buku->count() == 0)
+
 <!-- BUKU 1 -->
 @if(!$search || str_contains('si tudung merah', $search))
 <div class="col-md-3 mb-4">
@@ -106,6 +129,24 @@
 </div>
 @endif
 
+@endif
+
 </div>
 </div>
 @endsection
+
+<style>
+.container-fluid {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* hilangkan scrollbar (garis abu) */
+.container-fluid::-webkit-scrollbar {
+    display: none;
+}
+
+.container-fluid {
+    scrollbar-width: none;
+}
+</style>

@@ -33,9 +33,9 @@
                 <input type="text" name="judul" class="form-control">
             </div>
 
-            <!-- PENULIS -->
+            <!-- PENGARANG-->
             <div class="mb-3">
-                <label>Penulis</label>
+                <label>Pengarang</label>
                 <input type="text" name="pengarang" class="form-control">
             </div>
 
@@ -50,6 +50,20 @@
                 <label>Stok</label>
                 <input type="number" name="stok" class="form-control">
             </div>
+
+             <!-- PENERbit -->
+               <div class="mb-3">
+               <label>Penerbit</label>
+                 <input type="text" name="penerbit" class="form-control">
+                   </div>
+
+               <!-- DESKRIPSI -->
+              <div class="mb-3">
+              <label>Deskripsi</label>
+             <textarea name="deskripsi" class="form-control" rows="3"></textarea>
+             </div>
+
+               
 
             <!-- BUTTON -->
             <div class="d-flex justify-content-end">
@@ -74,9 +88,6 @@
 body {
     background: #ffffff !important;
 }
-
-
-
 
 h5 {
     font-size: 18px;
@@ -143,4 +154,27 @@ label {
     font-size: 12px;
     border: 1px solid #999;
 }
+
+/* ✅ TAMBAHAN SCROLL (TANPA GARIS ABU) */
+.card {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.card::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    scrollbar-width: none;
+}
 </style>
+<!-- ✅ TAMBAHAN (JANGAN DIUBAH YANG ATAS) -->
+<script>
+document.querySelector('.real-file').addEventListener('change', function(e) {
+    let fileName = e.target.files[0]?.name;
+    if (fileName) {
+        document.querySelector('.fake-input').innerHTML = fileName;
+    }
+});
+</script>

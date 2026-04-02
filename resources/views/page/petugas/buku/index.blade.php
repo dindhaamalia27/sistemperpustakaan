@@ -12,107 +12,50 @@
     <!-- LIST BUKU -->
     <div class="row">
 
-        <!-- BUKU 1 -->
+        @foreach($buku as $item)
         <div class="col-md-3 mb-4">
             <div class="card text-center shadow-sm p-3 border-0"
                  style="border-radius:15px; background:#f1f1f1;">
 
-                <img src="{{ asset('storage/tudung merah.jpg') }}"
+                <img src="{{ asset('storage/' . $item->foto) }}"
                      class="mx-auto mb-2"
                      style="width:90px; height:130px; object-fit:cover;">
 
-                <p class="mb-2">Si Tudung Merah</p>
-
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="{{ route('petugas.buku.detail', 1) }}" class="btn btn-info btn-sm">Detail</a>
-                    <!-- TOMBOL EDIT -->
-                    <a href="{{ route('petugas.buku.edit', 1) }}" class="btn btn-warning btn-sm">Edit</a
-                    <form action="{{ route('petugas.buku.delete', 1) }}" method="POST" class="m-0">
-                    @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- BUKU 2 -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-center shadow-sm p-3 border-0"
-                 style="border-radius:15px; background:#f1f1f1;">
-
-                <img src="{{ asset('storage/angkasa.jpg') }}"
-                     class="mx-auto mb-2"
-                     style="width:90px; height:130px; object-fit:cover;">
-
-                <p class="mb-2">Angkasa</p>
+                <p class="mb-2">{{ $item->judul }}</p>
 
                 <div class="d-flex justify-content-center gap-2">
 
-                    <a href="{{ route('petugas.buku.detail', 2) }}" class="btn btn-info btn-sm">Detail</a>
-                    <!-- TOMBOL EDIT -->
-                    <a href="{{ route('petugas.buku.edit', 2) }}" class="btn btn-warning btn-sm">Edit</a
-                    <form action="{{ route('petugas.buku.delete', 1) }}" method="POST" class="m-0">
-                    @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                    <a href="{{ route('petugas.buku.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
 
-        <!-- BUKU 3 -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-center shadow-sm p-3 border-0"
-                 style="border-radius:15px; background:#f1f1f1;">
+                    <a href="{{ route('petugas.buku.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                <img src="{{ asset('storage/indonesia.jpg') }}"
-                     class="mx-auto mb-2"
-                     style="width:90px; height:130px; object-fit:cover;">
-
-                <p class="mb-2">Bahasa Indonesia</p>
-
-                <div class="d-flex justify-content-center gap-2">
-
-                    <a href="{{ route('petugas.buku.detail', 3) }}" class="btn btn-info btn-sm">Detail</a>
-                    <!-- TOMBOL EDIT -->
-                    <a href="{{ route('petugas.buku.edit', 3) }}" class="btn btn-warning btn-sm">Edit</a
-                    <form action="{{ route('petugas.buku.delete', 1) }}" method="POST" class="m-0">
-                    @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- BUKU 4 -->
-        <div class="col-md-3 mb-4">
-            <div class="card text-center shadow-sm p-3 border-0"
-                 style="border-radius:15px; background:#f1f1f1;">
-
-                <img src="{{ asset('storage/adiku yang hilang.jpg') }}"
-                     class="mx-auto mb-2"
-                     style="width:90px; height:130px; object-fit:cover;">
-
-                <p class="mb-2">Adiku yang Hilang</p>
-
-                <div class="d-flex justify-content-center gap-2">
-
-                    <a href="{{ route('petugas.buku.detail', 4) }}" class="btn btn-info btn-sm">Detail</a>
-                    <!-- TOMBOL EDIT -->
-                    <a href="{{ route('petugas.buku.edit', 4) }}" class="btn btn-warning btn-sm">Edit</a>
-                     <form action="{{ route('petugas.buku.delete', 4) }}" method="POST">
-                        <form action="{{ route('petugas.buku.delete', 1) }}" method="POST" class="m-0">
+                    <form action="{{ route('petugas.buku.delete', $item->id) }}" method="POST" class="m-0">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">Hapus</button>
                     </form>
+
                 </div>
             </div>
         </div>
+        @endforeach
 
     </div>
 </div>
 
 @endsection
+<style>
+.container-fluid {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* hilangkan scrollbar (garis abu) */
+.container-fluid::-webkit-scrollbar {
+    display: none;
+}
+
+.container-fluid {
+    scrollbar-width: none;
+}
+</style>

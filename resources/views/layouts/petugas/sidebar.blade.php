@@ -57,12 +57,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ route('petugas.denda.index') }}">
-                    <i class="ti ti-cash"></i>
-                    <span class="hide-menu">Menerima Denda</span>
-                </a>
-            </li>
+           
 
             <!-- Logout -->
             <li class="sidebar-item">

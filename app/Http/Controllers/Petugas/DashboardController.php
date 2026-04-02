@@ -14,7 +14,8 @@ class DashboardController extends Controller
         $peminjaman = Peminjaman::with(['buku','user'])->latest()->get();
 
         $totalBuku = Buku::count();
-        $totalAnggota = User::count();
+        
+        $totalAnggota = User::sum('login_count'); // ✅ GANTI DI SINI
         $totalPinjam = Peminjaman::count();
 
             return view('page.petugas.dashboard.index', compact(

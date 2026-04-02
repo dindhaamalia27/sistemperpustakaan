@@ -6,36 +6,34 @@ use App\Http\Controllers\Controller;
 use App\Models\Petugas\Buku;
 use App\Models\Petugas\Peminjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class BukuController extends Controller
 {
-    // Daftar buku
     public function index()
     {
         $buku = Buku::all();
         return view('page.petugas.buku.index', compact('buku'));
     }
 
-    // Detail buku
     public function detail($id)
     {
         $buku = Buku::findOrFail($id);
         return view('page.petugas.buku.detail', compact('buku'));
     }
 
-    // Create buku
     public function create()
     {
         return view('page.petugas.buku.create');
     }
 
-    // Simpan buku
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $request->except('cover');
 
         if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('buku', 'public');
+            $data['foto'] = $request->file('cover')->store('buku', 'public');
         }
 
         Buku::create($data);
@@ -43,14 +41,12 @@ class BukuController extends Controller
         return redirect()->route('petugas.buku.index');
     }
 
-    // Daftar peminjaman (relasi buku & user)
     public function peminjaman()
     {
         $peminjaman = Peminjaman::with(['buku', 'user'])->get();
         return view('page.petugas.peminjaman.index', compact('peminjaman'));
     }
 
-    // ⬇️ TAMBAHAN (JANGAN DIUBAH YANG ATAS)
     public function acc($id)
     {
         $data = Peminjaman::find($id);
@@ -69,7 +65,6 @@ class BukuController extends Controller
         return back();
     }
 
-    // ⬇️ INI YANG KAMU MINTA (DITAMBAHIN DI PALING BAWAH)
     public function kembalikan($id)
     {
         $data = Peminjaman::find($id);
@@ -79,7 +74,6 @@ class BukuController extends Controller
         return back();
     }
 
-    // ⬇️ FITUR EDIT (TAMBAHAN PALING BAWAH BANGET)
     public function edit($id)
     {
         $buku = Buku::findOrFail($id);
@@ -90,14 +84,38 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $data = $request->all();
-
         if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('buku', 'public');
+
+            if ($buku->foto) {
+                Storage::disk('public')->delete($buku->foto);
+            }
+
+            $path = $request->file('cover')->store('buku', 'public');
+
+            $buku->foto = $path;
         }
 
-        $buku->update($data);
+        $buku->judul = $request->judul;
+        $buku->pengarang = $request->pengarang;
+        $buku->deskripsi = $request->deskripsi;
+        $buku->tahun_terbit = $request->tahun_terbit;
+        $buku->stok = $request->stok;
 
-        return redirect()->route('petugas.buku.index')->with('success', 'Buku berhasil diupdate');
+        $buku->save();
+
+        return redirect()->route('petugas.buku.index');
+    }
+
+    public function delete($id)
+    {
+        $buku = Buku::findOrFail($id);
+
+        if ($buku->foto) {
+           Storage::disk('public')->delete($buku->foto);
+        }
+
+        $buku->delete();
+
+        return redirect()->back();
     }
 }

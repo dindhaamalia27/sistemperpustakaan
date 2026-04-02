@@ -74,7 +74,8 @@
 
 <div class="form-group">
 <label>Judul Buku</label>
-<input type="text" name="judul_buku" value="Si tudung merah">
+<input type="text" name="judul_buku" value="{{ $buku->judul }}">
+
 </div>
 
 <div class="form-group">
