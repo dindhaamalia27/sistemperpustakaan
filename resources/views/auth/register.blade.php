@@ -102,6 +102,14 @@
 
     <form action="{{ route('register.proses') }}" method="POST">
         @csrf
+       <!-- TAMBAHKAN DI SINI -->
+             <div class="form-group">
+              <label>Nama</label>
+             <input type="text" name="name" class="form-control" required>
+              @error('name')
+            <div class="error">{{ $message }}</div>
+           @enderror
+          </div>
 
         <div class="form-group">
             <label>Email</label>

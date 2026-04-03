@@ -43,20 +43,33 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
    Route::post('/buku/store', [PetugasBukuController::class, 'store'])->name('buku.store');
    Route::get('/buku/detail/{id}', [PetugasBukuController::class, 'detail'])->name('buku.detail');
    Route::delete('/buku/{id}', [PetugasBukuController::class, 'delete'])->name('buku.delete');
-
    Route::get('/buku/edit/{id}', [PetugasBukuController::class, 'edit'])->name('buku.edit');
    Route::put('/buku/update/{id}', [PetugasBukuController::class, 'update'])->name('buku.update');
+
+   // ===== ✅ TAMBAHKAN DI SINI (Data Anggota) =====
+   Route::get('/anggota', [PetugasBukuController::class, 'anggota'])->name('anggota.index');
+   Route::delete('/anggota/{id}', [PetugasBukuController::class, 'deleteAnggota'])->name('anggota.delete');
 
     // Peminjaman petugas
     Route::get('/peminjaman', [PetugasBukuController::class,'peminjaman'])->name('peminjaman.index');
     Route::get('/acc/{id}', [PetugasBukuController::class, 'acc'])->name('acc');
     Route::get('/tolak/{id}', [PetugasBukuController::class, 'tolak'])->name('tolak');
 
-    // Pengembalian
+
+   //pengembalian petugas
     Route::get('/pengembalian', function () {
         $data = \App\Models\Peminjaman::whereNotNull('tanggal_kembali')->get();
-        return view('page.pengembalian.index', compact('data'));
+       return view('page.petugas.data pengembalian.index', compact('data'));
     })->name('pengembalian.index');
+
+   Route::post('/pengembalian/{id}/terima', [PetugasBukuController::class, 'terima'])
+    ->name('terima');
+
+Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolak'])
+    ->name('tolak');
+
+    Route::delete('/pengembalian/{id}', [PetugasBukuController::class, 'deletePengembalian'])
+        ->name('pengembalian.destroy');
 
     // Denda
     Route::get('/denda', function () {

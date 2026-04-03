@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Petugas;
 use App\Http\Controllers\Controller;
 use App\Models\Petugas\Buku;
 use App\Models\Petugas\Peminjaman;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 
 class BukuController extends Controller
 {
@@ -30,10 +30,24 @@ class BukuController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->except('cover');
+        $data = $request->except('foto');
+        $data['penerbit'] = $request->penerbit ?? '-';
 
-        if ($request->hasFile('cover')) {
-            $data['foto'] = $request->file('cover')->store('buku', 'public');
+        // ✅ TAMBAHAN (CEK BUKU DUPLIKAT)
+        $cekBuku = Buku::where('judul', $request->judul)
+                        ->where('pengarang', $request->pengarang)
+                        ->first();
+
+        if ($cekBuku) {
+            return back()->with('error', 'Buku sudah ada!');
+        }
+
+        if ($request->hasFile('foto')) {
+
+            $file = $request->file('foto');
+            $namaFile = $file->getClientOriginalName();
+
+            $data['foto'] = $file->store('buku', 'public');
         }
 
         Buku::create($data);
@@ -65,10 +79,31 @@ class BukuController extends Controller
         return back();
     }
 
+    // ✅ TAMBAHAN INI (JANGAN DIHAPUS)
     public function kembalikan($id)
     {
-        $data = Peminjaman::find($id);
+        $data = Peminjaman::findOrFail($id);
+
+        $data->tanggal_kembali = now();
         $data->status = 'dikembalikan';
+
+        $data->save();
+
+        return back();
+    }
+
+    public function terima($id)
+    {
+        $data = Peminjaman::findOrFail($id);
+
+        if ($data->tanggal_kembali > $data->tanggal_jatuh_tempo) {
+            $data->denda = 5000;
+        } else {
+            $data->denda = 0;
+        }
+
+        $data->status = 'selesai';
+
         $data->save();
 
         return back();
@@ -84,7 +119,7 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        if ($request->hasFile('cover')) {
+        if ($request->hasFile('foto')) {
 
             if ($buku->foto) {
                 Storage::disk('public')->delete($buku->foto);
@@ -97,6 +132,7 @@ class BukuController extends Controller
 
         $buku->judul = $request->judul;
         $buku->pengarang = $request->pengarang;
+        $buku->penerbit = $request->penerbit; 
         $buku->deskripsi = $request->deskripsi;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->stok = $request->stok;
@@ -117,5 +153,28 @@ class BukuController extends Controller
         $buku->delete();
 
         return redirect()->back();
+    }
+
+    public function anggota()
+    {
+        $anggota = User::all();
+
+        return view('page.petugas.data anggota.index', compact('anggota'));
+    }
+
+    public function deleteAnggota($id)
+    {
+        $data = User::findOrFail($id);
+        $data->delete();
+
+        return back();
+    }
+
+    public function deletePengembalian($id)
+    {
+        $data = Peminjaman::findOrFail($id);
+        $data->delete();
+
+        return back();
     }
 }

@@ -20,7 +20,7 @@
                 <label>Foto</label>
 
                 <div class="file-wrapper">
-                    <input type="file" name="cover" class="real-file">
+                    <input type="file" name="foto" class="real-file">
                     <div class="fake-input">
                         <span class="btn-file">Choose File</span>
                     </div>
@@ -63,7 +63,7 @@
              <textarea name="deskripsi" class="form-control" rows="3"></textarea>
              </div>
 
-               
+
 
             <!-- BUTTON -->
             <div class="d-flex justify-content-end">

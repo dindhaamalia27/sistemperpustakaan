@@ -4,7 +4,7 @@
 
 <div class="container-fluid" style="padding-left:260px; padding-top:20px;">
     <div class="card shadow-sm p-4" style="background:#f5f5f5; color:#333;">
-        <h6>Data peminjam baru</h6>
+        <h6>Riwayat peminjam baru</h6>
 
         <table class="table mt-3">
             <thead>

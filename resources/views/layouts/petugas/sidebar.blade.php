@@ -46,18 +46,25 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{ route('petugas.peminjaman.index') }}">
                     <i class="ti ti-user"></i>
-                    <span class="hide-menu">Peminjaman</span>
+                    <span class="hide-menu"> Data Peminjaman</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ route('petugas.pengembalian.index') }}">
-                    <i class="ti ti-refresh"></i>
+                <a class="sidebar-link" href="{{ route('petugas.anggota.index') }}">
+                    <i class="ti ti-users"></i>
+
                     <span class="hide-menu"> Data anggota</span>
                 </a>
             </li>
 
-           
+           <li class="sidebar-item">
+    <a class="sidebar-link" href="{{ route('petugas.pengembalian.index') }}">
+        <i class="ti ti-refresh"></i>
+        <span class="hide-menu">Data Pengembalian</span>
+    </a>
+</li>
+
 
             <!-- Logout -->
             <li class="sidebar-item">

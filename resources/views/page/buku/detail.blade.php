@@ -6,23 +6,23 @@
 .container {
     display: flex;
     justify-content: center;
-    align-items: center; /* INI KUNCI */
-    min-height: 80vh; /* BIAR TENGAH */
+    align-items: center;
+    min-height: 80vh;
 }
 </style>
 
 <div class="container" style="margin-top:-8px;">
 
-    <h5 class="mb-2">Detail Buku</h5>
+    <h5 class="mb-2 text-center">Detail Buku</h5>
 
-    <div class="card p-2 shadow-sm mx-auto"
-         style="border-radius:8px; background:#f8f8f8; max-width:420px;">
+    <div class="card p-4 shadow mx-auto"
+         style="border-radius:20px; background:#f1f3f5; max-width:500px; width:100%;">
 
        <!-- GAMBAR BUKU -->
         <div class="mb-2 text-center">
             <img src="{{ asset('storage/'.$buku->foto) }}"
                  alt="foto buku"
-                 style="width:100px; border-radius:4px;">
+                 style="width:130px; border-radius:8px;">
         </div>
 
         <!-- DETAIL BUKU -->
@@ -31,7 +31,7 @@
         <p class="mb-1"><strong>Penerbit :</strong> {{ $buku->penerbit }}</p>
         <p class="mb-1"><strong>Tahun terbit :</strong> {{ $buku->tahun_terbit }}</p>
 
-        <!-- 🔥 TAMBAHAN STOK -->
+        <!-- STOK -->
         <p class="mb-1">
             <strong>Stok :</strong> {{ $buku->stok }}
         </p>

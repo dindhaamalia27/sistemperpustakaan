@@ -14,6 +14,6 @@ class Buku extends Model
         'penerbit',
         'tahun_terbit',
         'deskripsi',
-        'cover',
+        'foto',
     ];
 }

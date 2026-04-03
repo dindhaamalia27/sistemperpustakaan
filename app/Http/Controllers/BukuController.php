@@ -82,6 +82,11 @@ class BukuController extends Controller
     {
         $pinjam = Peminjaman::findOrFail($id);
 
+        // 🔥 VALIDASI (TAMBAHKAN DI SINI)
+        if ($request->tanggal_kembali < $pinjam->tanggal_jatuh_tempo) {
+        return back()->with('error', 'Tanggal kembali tidak boleh sebelum jatuh tempo!');
+        }
+
         $pinjam->tanggal_kembali = $request->tanggal_kembali;
         $pinjam->denda = $request->denda;
         $pinjam->status = 'selesai';
