@@ -89,7 +89,9 @@ class BukuController extends Controller
 
         $pinjam->tanggal_kembali = $request->tanggal_kembali;
         $pinjam->denda = $request->denda;
-        $pinjam->status = 'selesai';
+        $pinjam->status = 'dikembalikan'; // ✅ GANTI DI SINI
+        
+
         $pinjam->save();
 
         // 🔥 TAMBAH STOK

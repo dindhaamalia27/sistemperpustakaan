@@ -52,11 +52,11 @@
                          @if($item->status == 'pending')
                          <span class="badge rounded-pill bg-warning text-dark px-3 py-2">pending</span>
 
-                           @elseif($item->status == 'dipinjam')
-                           <span class="badge rounded-pill bg-success px-3 py-2">dipinjam</span>
+                          @elseif($item->status == 'dipinjam')
+                        <span class="badge rounded-pill bg-warning text-dark px-3 py-2">dipinjam</span>
 
                         @elseif($item->status == 'ditolak')
-                    <span class="badge rounded-pill bg-danger px-3 py-2">ditolak</span>
+                      <span class="badge rounded-pill bg-danger px-3 py-2">ditolak</span>
 
                       @elseif($item->status == 'dikembalikan' || $item->status == 'selesai')
                         <span class="badge rounded-pill bg-success px-3 py-2">selesai</span>

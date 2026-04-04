@@ -8,6 +8,7 @@ use App\Models\Petugas\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon; // ✅ TAMBAHAN
 
 class BukuController extends Controller
 {
@@ -33,7 +34,6 @@ class BukuController extends Controller
         $data = $request->except('foto');
         $data['penerbit'] = $request->penerbit ?? '-';
 
-        // ✅ TAMBAHAN (CEK BUKU DUPLIKAT)
         $cekBuku = Buku::where('judul', $request->judul)
                         ->where('pengarang', $request->pengarang)
                         ->first();
@@ -79,7 +79,6 @@ class BukuController extends Controller
         return back();
     }
 
-    // ✅ TAMBAHAN INI (JANGAN DIHAPUS)
     public function kembalikan($id)
     {
         $data = Peminjaman::findOrFail($id);
@@ -91,23 +90,36 @@ class BukuController extends Controller
 
         return back();
     }
-
     public function terima($id)
-    {
-        $data = Peminjaman::findOrFail($id);
+{
+    $data = Peminjaman::findOrFail($id);
 
-        if ($data->tanggal_kembali > $data->tanggal_jatuh_tempo) {
-            $data->denda = 5000;
-        } else {
-            $data->denda = 0;
-        }
+    $kembali = Carbon::parse($data->tanggal_kembali);
+    $tempo = Carbon::parse($data->tanggal_jatuh_tempo);
 
-        $data->status = 'selesai';
-
-        $data->save();
-
-        return back();
+    // tentukan denda
+    if ($kembali->gt($tempo)) {
+        $data->denda = 5000;
+    } else {
+        $data->denda = 0;
     }
+
+    // 🔥 WAJIB INI
+    $data->status = 'selesai';
+
+    $data->save();
+
+    return back();
+}
+
+
+public function pengembalian()
+{
+    $data = Peminjaman::whereNotNull('tanggal_kembali')->get();
+
+    return view('page.petugas.data_pengembalian.index', compact('data'));
+}
+
 
     public function edit($id)
     {
@@ -132,7 +144,7 @@ class BukuController extends Controller
 
         $buku->judul = $request->judul;
         $buku->pengarang = $request->pengarang;
-        $buku->penerbit = $request->penerbit; 
+        $buku->penerbit = $request->penerbit;
         $buku->deskripsi = $request->deskripsi;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->stok = $request->stok;
@@ -156,11 +168,12 @@ class BukuController extends Controller
     }
 
     public function anggota()
-    {
-        $anggota = User::all();
+{
+    $anggota = User::where('role', 'anggota')->get(); // ✅ FIX
 
-        return view('page.petugas.data anggota.index', compact('anggota'));
-    }
+    return view('page.petugas.data anggota.index', compact('anggota'));
+}
+
 
     public function deleteAnggota($id)
     {

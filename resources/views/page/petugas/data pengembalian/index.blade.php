@@ -79,19 +79,20 @@
                             -
                         @endif
                     </td>
-              <td>
 
-    {{-- MENUNGGU --}}
-    @if($item->status == 'dikembalikan')
-        <span class="badge bg-warning text-dark">Menunggu</span>
+                      <td>
 
-    {{-- TERLAMBAT --}}
-    @elseif($item->status == 'selesai' && $item->denda > 0)
+                {{-- TERLAMBAT --}}
+              @if($item->status == 'selesai' && $item->denda > 0)
         <span class="badge bg-danger">Terlambat</span>
 
-    {{-- TEPAT WAKTU --}}
-    @elseif($item->status == 'selesai')
+            {{-- TEPAT WAKTU --}}
+          @elseif($item->status == 'selesai' && $item->denda == 0)
         <span class="badge bg-success">Tepat waktu</span>
+
+    {{-- MENUNGGU (PAKSA PRIORITAS) --}}
+    @elseif($item->tanggal_kembali && !$item->denda)
+        <span class="badge bg-warning text-dark">Menunggu</span>
 
     {{-- DEFAULT --}}
     @else
@@ -102,33 +103,26 @@
 </td>
 
 
-
-                   <td>
-
+<td>
           {{-- TERIMA --}}
         @if($item->tanggal_kembali)
-        <form action="{{ route('petugas.terima', $item->id) }}" method="POST" style="display:inline;">
+        <form action="{{ route('petugas.pengembalian.terima', $item->id) }}" method="POST" style="display:inline;">
             @csrf
-            <button class="btn btn-success btn-sm">Terima</button>
+            <button type="submit" class="btn btn-success btn-sm">Terima</button>
         </form>
-
         {{-- TOLAK --}}
-        <form action="{{ route('petugas.tolak', $item->id) }}" method="POST" style="display:inline;">
+        <form action="{{ route('petugas.pengembalian.tolak', $item->id) }}" method="POST" style="display:inline;">
             @csrf
             <button class="btn btn-warning btn-sm">Tolak</button>
         </form>
-    @endif
-
+           @endif
       {{-- HAPUS --}}
        <form action="{{ route('petugas.pengembalian.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')" style="display:inline;">
         @csrf
         @method('DELETE')
         <button class="btn btn-danger btn-sm">Hapus</button>
-    </form>
-
-</td>
-
-
+            </form>
+           </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -137,5 +131,4 @@
 
     </div>
 </div>
-
 @endsection

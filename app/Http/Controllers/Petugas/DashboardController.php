@@ -15,7 +15,8 @@ class DashboardController extends Controller
 
         $totalBuku = Buku::count();
 
-         $totalAnggota = User::distinct('email')->count('email'); // ✅ DI SINI
+
+         $totalAnggota = User::where('role', 'anggota')->count();
         $totalPinjam = Peminjaman::count();
 
             return view('page.petugas.dashboard.index', compact(

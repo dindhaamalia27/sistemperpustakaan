@@ -5,6 +5,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController; // ✅ FIX
 use App\Http\Controllers\Petugas\BukuController as PetugasBukuController;
+use App\Http\Controllers\Kepala\DashboardController as KepalaDashboardController; // ✅ TAMBAHAN
 use Illuminate\Support\Facades\Route;
 
 // ================= LOGIN =================
@@ -34,7 +35,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
         return redirect()->route('petugas.dashboard.index');
     });
 
-    // ✅ Dashboard Petugas (SUDAH FIX)
+    // Dashboard Petugas
     Route::get('/dashboard', [PetugasDashboardController::class, 'index'])->name('dashboard.index');
 
    // ===== Buku Petugas =====
@@ -58,24 +59,53 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 
    //pengembalian petugas
     Route::get('/pengembalian', function () {
-        $data = \App\Models\Peminjaman::whereNotNull('tanggal_kembali')->get();
-       return view('page.petugas.data pengembalian.index', compact('data'));
-    })->name('pengembalian.index');
-
-   Route::post('/pengembalian/{id}/terima', [PetugasBukuController::class, 'terima'])
-    ->name('terima');
-
-Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolak'])
-    ->name('tolak');
-
-    Route::delete('/pengembalian/{id}', [PetugasBukuController::class, 'deletePengembalian'])
-        ->name('pengembalian.destroy');
+        $data = \App\Models\Petugas\Peminjaman::whereNotNull('tanggal_kembali')->get();
+    return view('page.petugas.data pengembalian.index', compact('data')); })->name('pengembalian.index');
+    Route::post('/pengembalian/{id}/terima', [PetugasBukuController::class, 'terima'])->name('pengembalian.terima');
+    Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolak'])->name('pengembalian.tolak');
+    Route::delete('/pengembalian/{id}', [PetugasBukuController::class, 'deletePengembalian'])->name('pengembalian.destroy');
 
     // Denda
     Route::get('/denda', function () {
         return "halaman denda";
     })->name('denda.index');
 });
+
+
+// ======= DASHBOARD KEPALA =======
+Route::prefix('kepala')->name('kepala.')->group(function () {
+
+    Route::get('/dashboard', [KepalaDashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('/buku', function () {
+        $buku = \App\Models\Petugas\Buku::all();
+        return view('page.kepala.buku.index', compact('buku'));})->name('buku.index');
+
+        // ✅ TAMBAH DI SINI
+    Route::get('/buku/{id}', function ($id) {
+    $buku = \App\Models\Petugas\Buku::findOrFail($id);
+    return view('page.kepala.buku.detail', compact('buku'));
+    })->name('buku.detail');
+
+    Route::get('/peminjaman', function () {
+    return view('page.kepala.peminjaman.index');})->name('peminjaman.index');
+
+    Route::get('/anggota', function () {
+        return view('page.kepala.anggota.index'); })->name('anggota.index');
+
+    Route::get('/laporan', function () {
+        return view('page.kepala.laporan.index');})->name('laporan.index');
+
+    // 🔥 TAMBAHKAN INI
+    Route::get('/petugas', function () {
+        $petugas = \App\Models\User::where('role', 'petugas')->get();
+        return view('page.kepala.tambah petugas.index', compact('petugas'));})->name('petugas.index');
+
+        Route::get('/petugas/create', function () {
+      return view('page.kepala.tambah petugas.create');
+     })->name('petugas.create');
+   });
+
 
 
 // ================= BUKU =================

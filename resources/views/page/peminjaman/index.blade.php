@@ -60,6 +60,12 @@ width:90%;
     </span>
 
 
+@elseif($item->status == 'dikembalikan')
+    <span style="background:green; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
+        selesai
+    </span>
+
+
 @elseif($item->status == 'ditolak')
     <span style="background:red; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
         ditolak

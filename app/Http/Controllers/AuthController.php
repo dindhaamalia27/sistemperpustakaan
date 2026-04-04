@@ -27,13 +27,13 @@ class AuthController extends Controller
    $user->login_count = $user->login_count + 1;
    $user->save();
 
-
-
     if (Auth::user()->role == 'petugas') {
-    return redirect('/petugas/dashboard');
-} else {
-    return redirect('/dashboard');
-}
+        return redirect('/petugas/dashboard');
+    } else if (Auth::user()->role == 'kepala') {
+        return redirect('/kepala/dashboard');
+    } else {
+        return redirect('/dashboard');
+    }
 }
 
     return back()->with('error', 'Email atau password salah!');
@@ -51,6 +51,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'kepala'
         ]);
 
         return redirect('/login')->with('success', 'Akun berhasil dibuat!');

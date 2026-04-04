@@ -63,16 +63,27 @@ div::-webkit-scrollbar {
                     <td>{{ $item->tanggal_jatuh_tempo }}</td>
                     <td>{{ $item->tanggal_kembali ?? '-' }}</td>
                     <td>
-                        @if($item->status == 'dipinjam')
-                            <span class="badge bg-warning text-dark">Dipinjam</span>
-                        @elseif($item->status == 'dikembalikan')
-                            <span class="badge bg-success">Tepat waktu</span>
-                        @elseif($item->status == 'terlambat')
-                            <span class="badge bg-danger">Terlambat</span>
-                        @else
-                            <span class="badge bg-secondary">{{ $item->status }}</span>
-                        @endif
-                    </td>
+                       
+    @if($item->status == 'pending')
+        <span class="badge bg-warning text-dark">Pending</span>
+
+    @elseif($item->status == 'selesai')
+        <span class="badge bg-success">Selesai</span>
+
+    @elseif($item->status == 'dipinjam')
+        <span class="badge bg-warning text-dark">Dipinjam</span>
+
+    @elseif($item->status == 'dikembalikan')
+        <span class="badge bg-success">Tepat waktu</span>
+
+    @elseif($item->status == 'terlambat')
+        <span class="badge bg-danger">Terlambat</span>
+
+    @else
+        <span class="badge bg-secondary">{{ $item->status }}</span>
+    @endif
+</td>
+
                 </tr>
                 @endforeach
                 </tbody>

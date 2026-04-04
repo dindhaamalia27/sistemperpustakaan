@@ -34,13 +34,12 @@ width:100%;
 
 <tr style="border-top:1px solid #ddd; height:60px;">
 
-
 <td style="padding:10px; white-space:nowrap; width:180px;">{{ $item->judul_buku }}</td>
 <td style="padding:10px; white-space:nowrap; width:150px;">{{ $item->nama }}</td>
 <td style="padding:10px; white-space:nowrap; width:140px;">{{ $item->tanggal_pinjam }}</td>
 <td style="padding:10px; white-space:nowrap; width:140px;">{{ $item->tanggal_jatuh_tempo }}</td>
-<td>
 
+<td>
 {{ $item->tanggal_kembali ?? '-' }}
 </td>
 
@@ -51,13 +50,24 @@ width:100%;
 <!-- STATUS -->
 <td>
 @php
-    $status = 'Tepat waktu';
-    if($item->tanggal_kembali && $item->tanggal_kembali > $item->tanggal_jatuh_tempo){
-        $status = 'Terlambat';
+   if($item->status != 'selesai'){
+
+        $status = 'Pending';
+    } else {
+        $status = 'Tepat waktu';
+        if($item->tanggal_kembali && $item->tanggal_kembali > $item->tanggal_jatuh_tempo){
+            $status = 'Terlambat';
+        }
     }
 @endphp
 
-@if($status == 'Terlambat')
+@if($status == 'Pending')
+    <span style="background:#f39c12; color:white; padding:5px 12px; border-radius:8px; font-size:12px; margin-right:8px;">
+    Pending
+</span>
+
+
+@elseif($status == 'Terlambat')
     <span style="background:#e74c3c; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
         Terlambat
     </span>
@@ -80,7 +90,12 @@ width:100%;
 
 <!-- AKSI -->
 <td>
-@if($status == 'Terlambat')
+@if($status == 'Pending')
+    <span style="background:#f39c12; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
+        menunggu
+    </span>
+
+@elseif($status == 'Terlambat')
     <span style="background:red; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
         telat
     </span>

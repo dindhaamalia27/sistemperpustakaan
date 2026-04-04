@@ -64,8 +64,6 @@
         <span class="hide-menu">Data Pengembalian</span>
     </a>
 </li>
-
-
             <!-- Logout -->
             <li class="sidebar-item">
                 <form action="{{ route('logout') }}" method="POST">
