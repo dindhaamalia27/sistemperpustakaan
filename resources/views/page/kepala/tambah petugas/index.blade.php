@@ -8,7 +8,7 @@
 
     <!-- tombol tambah -->
     <div style="margin-bottom:20px;">
-     
+
         <a href="{{ route('kepala.petugas.create') }}" style="
 
             background:#27ae60;
@@ -49,7 +49,9 @@
 
                     <!-- AKSI -->
                     <td style="padding:10px; text-align:center; white-space:nowrap;">
-                        <a href="#" style="
+
+                        <!-- EDIT -->
+                        <a href="{{ route('kepala.petugas.edit', $item->id) }}" style="
                             background:#f39c12;
                             color:white;
                             padding:5px 12px;
@@ -62,20 +64,22 @@
                             Edit
                         </a>
 
-                        <form action="#" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button style="
-                                background:#e74c3c;
-                                color:white;
-                                padding:5px 12px;
-                                border:none;
-                                border-radius:6px;
-                                font-size:12px;
-                            ">
-                                Hapus
-                            </button>
-                        </form>
+                        <!-- HAPUS -->
+                        <form action="{{ route('kepala.petugas.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                       @csrf
+               @method('DELETE')
+             <button type="submit" style="
+             background:#e74c3c;
+        color:white;
+        padding:5px 12px;
+        border:none;
+        border-radius:6px;
+        font-size:12px;
+        cursor:pointer;
+         ">
+        Hapus
+        </button>
+         </form>
                     </td>
 
                 </tr>

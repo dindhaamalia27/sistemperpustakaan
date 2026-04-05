@@ -21,9 +21,25 @@
 
     <!-- PROFILE -->
     <div style="text-align:center; padding:4px 0;">
-        <img src="{{ asset('images/profile.jpg') }}"
-             style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
-              <div style="font-size:12px; margin-top:4px;">kepala</div>
+
+        <!-- INISIAL K -->
+        <div style="
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:#5a9ec9;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:auto;
+            font-weight:bold;
+            font-size:18px;
+        ">
+            K
+        </div>
+
+        <div style="font-size:12px; margin-top:4px;">kepala</div>
 
     <!-- MENU -->
     <nav class="sidebar-nav scroll-sidebar" style="margin-top:5px; padding-top:0;">
@@ -50,7 +66,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ route('kepala.anggota.index') }}">
+                <a class="sidebar-link" href="{{ route('kepala.laporan.index') }}">
                   <i class="ti ti-file-report"></i>
                     <span class="hide-menu">Laporan</span>
                 </a>

@@ -1,4 +1,3 @@
-
 <style>
   .left-sidebar {
     position: fixed;
@@ -18,8 +17,24 @@
 
     <!-- PROFILE -->
     <div style="text-align:center; padding:4px 0;">
-        <img src="{{ asset('images/profile.jpg') }}"
-             style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+
+        <!-- INISIAL A -->
+        <div style="
+            width:50px;
+            height:50px;
+            border-radius:50%;
+            background:#5a9ec9;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:auto;
+            font-weight:bold;
+            font-size:18px;
+        ">
+            A
+        </div>
+
         <div style="font-size:12px; margin-top:4px;">anggota</div>
     </div>
 

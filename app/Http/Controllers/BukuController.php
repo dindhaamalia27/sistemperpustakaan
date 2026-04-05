@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota\Buku;
 use App\Models\Peminjaman;
+use Illuminate\Support\Facades\Auth; // taro di atas
+
+
+
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -54,7 +58,7 @@ class BukuController extends Controller
 
         Peminjaman::create([
             'judul_buku' => $request->judul_buku,
-            'nama' => $request->nama,
+            'nama' => Auth::user()->nama ?? Auth::user()->name,
             'tanggal_pinjam' => $request->tanggal_pinjam,
             'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'status' => 'pending'
@@ -90,7 +94,7 @@ class BukuController extends Controller
         $pinjam->tanggal_kembali = $request->tanggal_kembali;
         $pinjam->denda = $request->denda;
         $pinjam->status = 'dikembalikan'; // ✅ GANTI DI SINI
-        
+
 
         $pinjam->save();
 

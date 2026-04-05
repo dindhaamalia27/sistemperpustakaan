@@ -4,8 +4,8 @@
 
 <div class="container-fluid" style="padding-left:260px; padding-top:20px;">
 
-        
-            <div class="card p-3 shadow-sm border-0 mx-auto" style="border-radius:15px; max-width:450px; background:#f1f1f1;">
+<div class="card p-2 border-0 mx-auto" style="border-radius:15px; max-width:450px; background:#f1f1f1; position:relative; top:-10px; left:0px; box-shadow:none;">
+
 
         <!-- GAMBAR BUKU -->
         <div class=" text-center">
@@ -21,7 +21,27 @@
         <p><b>Pengarang:</b> {{ $buku->pengarang }}</p>
         <p><b>Penerbit:</b> {{ $buku->penerbit }}</p>
         <p><b>Tahun:</b> {{ $buku->tahun_terbit }}</p>
-        <p><b>Deskripsi:</b> {{ $buku->deskripsi }}</p>
+
+
+          <!-- STOK -->
+        <p class="mb-1">
+            <strong>Stok :</strong> {{ $buku->stok }}
+        </p>
+
+        <p class="mb-1">
+            <strong>Status :</strong>
+            @if($buku->stok > 0)
+                <span class="badge bg-success">Tersedia</span>
+            @else
+                <span class="badge bg-warning text-dark">Dipinjam</span>
+            @endif
+        </p>
+         <div class="mt-1">
+            <strong>Deskripsi</strong>
+            <p class="mb-0" style="font-size:13px;">
+                {{ $buku->deskripsi }}
+            </p>
+        </div>
 
         <div class="text-center mt-3">
             <a href="{{ route('petugas.buku.index') }}" class="btn btn-secondary btn-sm">

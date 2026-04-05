@@ -69,7 +69,8 @@
 
 <div class="form-group">
 <label>Nama</label>
-<input type="text" name="nama" value="Decha">
+<input type="text" name="nama" value="{{ auth()->user()->name }}">
+
 </div>
 
 <div class="form-group">

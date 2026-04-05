@@ -16,9 +16,8 @@
             width:350px;
         ">
 
-            <form action="#" method="POST">
-                @csrf
-
+          <form action="{{ route('kepala.petugas.store') }}" method="POST">
+    @csrf
                 <!-- NAMA -->
                 <div style="margin-bottom:15px;">
                     <label style="font-size:13px;">Nama</label><br>

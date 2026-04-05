@@ -94,7 +94,9 @@ Route::prefix('kepala')->name('kepala.')->group(function () {
         return view('page.kepala.anggota.index'); })->name('anggota.index');
 
     Route::get('/laporan', function () {
-        return view('page.kepala.laporan.index');})->name('laporan.index');
+    $data = \App\Models\Peminjaman::all(); // 🔥 ambil data
+    return view('page.kepala.laporan.index', compact('data'));
+     })->name('laporan.index');
 
     // 🔥 TAMBAHKAN INI
     Route::get('/petugas', function () {
@@ -104,8 +106,48 @@ Route::prefix('kepala')->name('kepala.')->group(function () {
         Route::get('/petugas/create', function () {
       return view('page.kepala.tambah petugas.create');
      })->name('petugas.create');
-   });
 
+     // ✅ TAMBAHAN (INI DOANG YANG DITAMBAH)
+    Route::post('/petugas', function (\Illuminate\Http\Request $request) {
+        \App\Models\User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => 'petugas'
+        ]);
+
+        return redirect()->route('kepala.petugas.index');
+    })->name('petugas.store');
+
+    // 🔥 TARO DI SINI ↓↓↓
+
+// EDIT
+Route::get('/petugas/{id}/edit', function ($id) {
+    $petugas = \App\Models\User::findOrFail($id);
+    return view('page.kepala.tambah petugas.edit', compact('petugas'));
+})->name('petugas.edit');
+
+// UPDATE
+Route::put('/petugas/{id}', function (\Illuminate\Http\Request $request, $id) {
+    $petugas = \App\Models\User::findOrFail($id);
+
+    $petugas->update([
+        'name' => $request->name,
+        'email' => $request->email,
+    ]);
+  return redirect()->route('kepala.petugas.index');
+
+})->name('petugas.update');
+
+// HAPUS
+Route::delete('/petugas/{id}', function ($id) {
+    $petugas = \App\Models\User::findOrFail($id);
+    $petugas->delete();
+
+   return redirect()->route('kepala.petugas.index');
+})->name('petugas.destroy');
+
+});
 
 
 // ================= BUKU =================

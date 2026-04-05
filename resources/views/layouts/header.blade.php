@@ -34,10 +34,6 @@ html, body {
             <div class="navbar-collapse justify-content-end px-3" style="display:flex; align-items:center;">
             <ul class="navbar-nav align-items-center">
                     <li class="nav-item" style="display:flex; align-items:center;">
-                    <img src="{{ asset('assets/images/profile/user-1.jpg') }}"
-                     class="rounded-circle"
-                    width="20"
-                    style="object-fit:cover; display:block; margin-top:3px;">
                 </li>
             </ul>
         </div>
