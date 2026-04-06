@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -10,6 +11,16 @@ class DashboardController extends Controller
     {
         $data = Peminjaman::latest()->get();
 
-        return view('page.dashboard.index', compact('data'));
+        // ✅ TAMBAHAN
+        $totalAnggota = User::where('role', 'anggota')->count();
+        $totalPinjam = Peminjaman::count();
+        $totalKembali = Peminjaman::where('status', 'selesai')->count();
+
+        return view('page.dashboard.index', compact(
+            'data',
+            'totalAnggota',
+            'totalPinjam',
+            'totalKembali'
+        ));
     }
 }

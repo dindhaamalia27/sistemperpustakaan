@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Petugas;
 use App\Http\Controllers\Controller;
 use App\Models\Petugas\Peminjaman;
 use App\Models\Petugas\Buku;
-use App\Models\User;
+use App\Models\Petugas\Petugas; // ✅ TAMBAHAN
+
 
 class DashboardController extends Controller
 {
@@ -15,15 +16,18 @@ class DashboardController extends Controller
 
         $totalBuku = Buku::count();
 
+        // ✅ FIX: total petugas (bukan nama)
+       $totalpetugas = \App\Models\User::where('role', 'petugas')->count();
+       $totalPinjam = Peminjaman::count();
+        // ✅ TAMBAHAN
+        $totalKembali = Peminjaman::where('status', 'selesai')->count();
 
-         $totalAnggota = User::where('role', 'anggota')->count();
-        $totalPinjam = Peminjaman::count();
-
-            return view('page.petugas.dashboard.index', compact(
+        return view('page.petugas.dashboard.index', compact(
             'peminjaman',
             'totalBuku',
-            'totalAnggota',
-            'totalPinjam'
+            'totalpetugas',
+            'totalPinjam',
+            'totalKembali'
         ));
     }
 }

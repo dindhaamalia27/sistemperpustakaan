@@ -15,19 +15,36 @@ div::-webkit-scrollbar {
     <!-- CARD ATAS -->
     <div class="row mb-4 justify-content-center">
 
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="card text-center p-3 border-0"
                  style="background:#d66b6b; border-radius:10px; color:white;">
-                <small>Anggota</small>
-                <h5>{{ $totalAnggota }}</h5>
+                <small>Total Petugas</small>
+                <h5>{{ $totalpetugas }}</h5>
+
             </div>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="card text-center p-3 border-0"
                  style="background:#6fa4c9; border-radius:10px; color:white;">
                 <small>Total Buku</small>
                 <h5>{{ $totalBuku }}</h5>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center p-3 border-0"
+                 style="background:#e18d2e; border-radius:10px; color:white;">
+                <small>Peminjaman</small>
+                <h5>{{ $totalPinjam }}</h5>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center p-3 border-0"
+                 style="background:#5cb85c; border-radius:10px; color:white;">
+                <small>Pengembalian</small>
+                <h5>{{ $totalKembali }}</h5>
             </div>
         </div>
 
@@ -39,8 +56,6 @@ div::-webkit-scrollbar {
 
         <!-- BOX -->
         <div style="padding:15px; border-radius:5px; background:white; overflow-x:auto; max-height:300px; overflow-y:auto;">
-
-
 
             <table class="table table-borderless text-center" style="font-size:13px; min-width:700px; white-space:nowrap;">
                 <thead>
@@ -63,7 +78,7 @@ div::-webkit-scrollbar {
                     <td>{{ $item->tanggal_jatuh_tempo }}</td>
                     <td>{{ $item->tanggal_kembali ?? '-' }}</td>
                     <td>
-                       
+
     @if($item->status == 'pending')
         <span class="badge bg-warning text-dark">Pending</span>
 

@@ -70,23 +70,21 @@
 <div class="form-group">
 <label>Nama</label>
 <input type="text" name="nama" value="{{ auth()->user()->name }}">
-
 </div>
 
 <div class="form-group">
 <label>Judul Buku</label>
 <input type="text" name="judul_buku" value="{{ $buku->judul }}">
-
 </div>
 
 <div class="form-group">
 <label>Tanggal pinjam</label>
-<input type="date" name="tanggal_pinjam" value="2026-02-10">
+<input type="date" name="tanggal_pinjam" value="{{ date('Y-m-d') }}">
 </div>
 
 <div class="form-group">
 <label>Tanggal jatuh tempo</label>
-<input type="date" name="tanggal_jatuh_tempo" value="2026-02-17">
+<input type="date" name="tanggal_jatuh_tempo" value="{{ date('Y-m-d', strtotime('+7 days')) }}">
 </div>
 
 <div class="button-area">
