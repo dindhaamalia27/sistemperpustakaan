@@ -33,7 +33,7 @@
                 <label>Penerbit</label>
                 <input type="text" name="penerbit" class="form-control" value="{{ $buku->penerbit}}">
             </div>
-            
+
             <!-- DESKRIPSI -->
             <div class="mb-3">
                 <label>Deskripsi</label>
@@ -49,7 +49,8 @@
             <!-- STOK -->
             <div class="mb-3">
                 <label>Stok</label>
-                <input type="number" name="stok" class="form-control" value="{{ $buku->stok }}">
+                <input type="number" name="stok" class="form-control" value="{{ $buku->stok }}" min="0">
+
             </div>
 
             <!-- FOTO -->

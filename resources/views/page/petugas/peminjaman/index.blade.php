@@ -49,8 +49,8 @@
                             {{-- STATUS --}}
                           <td>
 
-                         @if($item->status == 'pending')
-                         <span class="badge rounded-pill bg-warning text-dark px-3 py-2">pending</span>
+                        @if($item->status == 'pending')
+                       <span class="badge rounded-pill bg-primary text-white px-3 py-2">pending</span>
 
                           @elseif($item->status == 'dipinjam')
                         <span class="badge rounded-pill bg-warning text-dark px-3 py-2">dipinjam</span>

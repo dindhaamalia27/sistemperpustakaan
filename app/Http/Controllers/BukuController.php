@@ -42,6 +42,11 @@ class BukuController extends Controller
     // SIMPAN DATA PINJAM
     public function simpanPinjam(Request $request)
     {
+
+        $request->validate([
+            'tanggal_pinjam' => 'required|date|after_or_equal:today',
+        ]);
+
         // 🔥 AMBIL DATA BUKU
         $buku = Buku::where('judul', $request->judul_buku)->first();
 

@@ -42,7 +42,7 @@ div::-webkit-scrollbar {
 
         <div class="col-md-3">
             <div class="card text-center p-3 border-0"
-                 style="background:#5cb85c; border-radius:10px; color:white;">
+                 style="background:#de2e2e; border-radius:10px; color:white;">
                 <small>Pengembalian</small>
                 <h5>{{ $totalKembali }}</h5>
             </div>
@@ -79,8 +79,11 @@ div::-webkit-scrollbar {
                     <td>{{ $item->tanggal_kembali ?? '-' }}</td>
                     <td>
 
-    @if($item->status == 'pending')
-        <span class="badge bg-warning text-dark">Pending</span>
+
+       @if($item->status == 'pending')
+    <span style="background:#3498db; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
+        pending
+    </span>
 
     @elseif($item->status == 'selesai')
         <span class="badge bg-success">Selesai</span>
@@ -97,9 +100,8 @@ div::-webkit-scrollbar {
     @else
         <span class="badge bg-secondary">{{ $item->status }}</span>
     @endif
-</td>
-
-                </tr>
+      </td>
+         </tr>
                 @endforeach
                 </tbody>
 

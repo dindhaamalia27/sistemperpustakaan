@@ -79,7 +79,7 @@
 
 <div class="form-group">
 <label>Tanggal pinjam</label>
-<input type="date" name="tanggal_pinjam" value="{{ date('Y-m-d') }}">
+<input type="date" name="tanggal_pinjam" value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}">
 </div>
 
 <div class="form-group">

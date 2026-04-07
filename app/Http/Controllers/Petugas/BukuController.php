@@ -129,6 +129,10 @@ public function pengembalian()
 
     public function update(Request $request, $id)
     {
+       $request->validate([
+        'stok' => 'required|integer|min:0',
+       ]);
+
         $buku = Buku::findOrFail($id);
 
         if ($request->hasFile('foto')) {
