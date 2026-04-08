@@ -76,18 +76,25 @@ width:90%;
 
 <!-- AKSI (tetap ada) -->
 <td>
-<a href="/peminjaman/{{ $item->id }}/form-kembali"
+
+<a href="{{ ($item->status == 'dikembalikan' || $item->status == 'selesai') ? '#' : '/peminjaman/'.$item->id.'/form-kembali' }}"
 style="
-background:#2d8cf0;
+background:{{ ($item->status == 'dikembalikan' || $item->status == 'selesai') ? '#999' : '#2d8cf0' }};
 color:white;
 padding:5px 12px;
 border-radius:8px;
 font-size:12px;
 text-decoration:none;
+pointer-events:{{ ($item->status == 'dikembalikan' || $item->status == 'selesai') ? 'none' : 'auto' }};
+cursor:{{ ($item->status == 'dikembalikan' || $item->status == 'selesai') ? 'not-allowed' : 'pointer' }};
 ">
+
 kembalikan
+
 </a>
+
 </td>
+
 
 </tr>
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController; // ✅ FIX
 use App\Http\Controllers\Petugas\BukuController as PetugasBukuController;
 use App\Http\Controllers\Kepala\DashboardController as KepalaDashboardController; // ✅ TAMBAHAN
+use App\Http\Controllers\Kepala\BukuController as KepalaBukuController; // ✅ TAMBAHAN
+
 use Illuminate\Support\Facades\Route;
 
 // ================= LOGIN =================
@@ -72,14 +74,13 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 });
 
 
-// ======= DASHBOARD KEPALA =======
-Route::prefix('kepala')->name('kepala.')->group(function () {
+       // ======= DASHBOARD KEPALA =======
+    Route::prefix('kepala')->name('kepala.')->group(function () {
 
     Route::get('/dashboard', [KepalaDashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::get('/buku', function () {
-        $buku = \App\Models\Petugas\Buku::all();
-        return view('page.kepala.buku.index', compact('buku'));})->name('buku.index');
+    // ====== Buku kepala =====
+     Route::get('/buku', [KepalaBukuController::class, 'index'])->name('buku.index');
 
         // ✅ TAMBAH DI SINI
     Route::get('/buku/{id}', function ($id) {
@@ -98,8 +99,8 @@ Route::prefix('kepala')->name('kepala.')->group(function () {
     return view('page.kepala.laporan.index', compact('data'));
      })->name('laporan.index');
 
-    // 🔥 TAMBAHKAN INI
-    Route::get('/petugas', function () {
+    // ======Tambah petugas ==
+        Route::get('/petugas', function () {
         $petugas = \App\Models\User::where('role', 'petugas')->get();
         return view('page.kepala.tambah petugas.index', compact('petugas'));})->name('petugas.index');
 
@@ -121,14 +122,14 @@ Route::prefix('kepala')->name('kepala.')->group(function () {
 
     // 🔥 TARO DI SINI ↓↓↓
 
-// EDIT
-Route::get('/petugas/{id}/edit', function ($id) {
+    // EDIT
+    Route::get('/petugas/{id}/edit', function ($id) {
     $petugas = \App\Models\User::findOrFail($id);
     return view('page.kepala.tambah petugas.edit', compact('petugas'));
-})->name('petugas.edit');
+    })->name('petugas.edit');
 
-// UPDATE
-Route::put('/petugas/{id}', function (\Illuminate\Http\Request $request, $id) {
+    // UPDATE
+   Route::put('/petugas/{id}', function (\Illuminate\Http\Request $request, $id) {
     $petugas = \App\Models\User::findOrFail($id);
 
     $petugas->update([
@@ -137,17 +138,17 @@ Route::put('/petugas/{id}', function (\Illuminate\Http\Request $request, $id) {
     ]);
   return redirect()->route('kepala.petugas.index');
 
-})->name('petugas.update');
+  })->name('petugas.update');
 
-// HAPUS
-Route::delete('/petugas/{id}', function ($id) {
+  // HAPUS
+    Route::delete('/petugas/{id}', function ($id) {
     $petugas = \App\Models\User::findOrFail($id);
     $petugas->delete();
 
    return redirect()->route('kepala.petugas.index');
-})->name('petugas.destroy');
+   })->name('petugas.destroy');
 
-});
+    });
 
 
 // ================= BUKU =================

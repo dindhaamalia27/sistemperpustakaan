@@ -9,6 +9,23 @@
         <a href="{{ route('petugas.buku.create') }}" class="btn btn-success btn-sm">Tambah Buku</a>
     </div>
 
+    <!-- SEARCH -->
+    <form method="GET" action="{{ route('petugas.buku.index') }}">
+    <div class="mb-4 position-relative">
+
+        <i class="ti ti-search"
+           style="position:absolute; top:50%; left:15px; transform:translateY(-50%); color:#999;">
+        </i>
+
+        <input type="text"
+               name="search"
+               class="form-control"
+               placeholder="Cari buku"
+               value="{{ request('search') }}"
+               style="padding-left:40px;">
+     </div>
+</form>
+
     <!-- LIST BUKU -->
     <div class="row">
 
@@ -39,10 +56,8 @@
             </div>
         </div>
         @endforeach
-
     </div>
 </div>
-
 @endsection
 <style>
 .container-fluid {

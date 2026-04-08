@@ -6,8 +6,6 @@ use App\Models\Anggota\Buku;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\Auth; // taro di atas
 
-
-
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -27,6 +25,7 @@ class BukuController extends Controller
 
     return view('page.buku.index', compact('buku'));
 }
+
     public function detail($id)
     {
         $buku = Buku::findOrFail($id);
@@ -42,6 +41,11 @@ class BukuController extends Controller
     // SIMPAN DATA PINJAM
     public function simpanPinjam(Request $request)
     {
+
+        // 🔥 TAMBAHAN (BIAR AMAN USER SELALU YANG LOGIN SEKARANG)
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
 
         $request->validate([
             'tanggal_pinjam' => 'required|date|after_or_equal:today',
@@ -61,9 +65,12 @@ class BukuController extends Controller
             $buku->save();
         }
 
+        // 🔥 TAMBAHAN (AMBIL USER SEKARANG BIAR GA KETUKER)
+        $user = Auth::user();
+
         Peminjaman::create([
             'judul_buku' => $request->judul_buku,
-            'nama' => Auth::user()->nama ?? Auth::user()->name,
+            'nama' => $user->nama ?? $user->name,
             'tanggal_pinjam' => $request->tanggal_pinjam,
             'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'status' => 'pending'
@@ -99,7 +106,6 @@ class BukuController extends Controller
         $pinjam->tanggal_kembali = $request->tanggal_kembali;
         $pinjam->denda = $request->denda;
         $pinjam->status = 'dikembalikan'; // ✅ GANTI DI SINI
-
 
         $pinjam->save();
 

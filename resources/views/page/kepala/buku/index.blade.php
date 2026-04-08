@@ -4,6 +4,23 @@
 
 <div class="container-fluid" style="padding-left:260px; padding-top:20px;">
 
+    <!-- SEARCH -->
+    <form method="GET" action="{{ route('kepala.buku.index') }}">
+        <div class="mb-4 position-relative">
+
+            <i class="ti ti-search"
+               style="position:absolute; top:50%; left:15px; transform:translateY(-50%); color:#999;">
+            </i>
+
+            <input type="text"
+                   name="search"
+                   class="form-control"
+                   placeholder="Cari buku"
+                   value="{{ request('search') }}"
+                   style="padding-left:40px;">
+        </div>
+    </form>
+
     <!-- LIST BUKU -->
     <div class="row">
 
@@ -21,7 +38,6 @@
                 <div class="d-flex justify-content-center">
 
                     <a href="{{ route('kepala.buku.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
-
                 </div>
             </div>
         </div>

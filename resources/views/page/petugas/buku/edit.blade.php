@@ -49,10 +49,9 @@
             <!-- STOK -->
             <div class="mb-3">
                 <label>Stok</label>
-                <input type="number" name="stok" class="form-control" value="{{ $buku->stok }}" min="0">
 
+                <input type="number" name="stok" class="form-control" value="{{ $buku->stok }}">
             </div>
-
             <!-- FOTO -->
             <div class="mb-3">
                 <label>Cover Buku</label>
@@ -63,7 +62,9 @@
                     </div>
                 @endif
 
-                <input type="file" name="cover" class="form-control">
+               
+                <input type="file" name="foto" class="form-control">
+
             </div>
 
             <!-- BUTTON -->
@@ -79,12 +80,8 @@
         </form>
 
     </div>
-
 </div>
-
 @endsection
-
-
 <style>
 body {
     background: #ffffff !important;

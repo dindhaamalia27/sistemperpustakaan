@@ -39,6 +39,26 @@
         <p class="mb-2">{{ $item->judul }}</p>
 
         <div>
+
+            @php
+                $dipinjam = \App\Models\Peminjaman::where('judul_buku', $item->judul)
+                    ->whereIn('status', ['pending','dipinjam'])
+                    ->count();
+            @endphp
+
+            @if($dipinjam > 0)
+                <small style="
+            background: orange;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+            ">
+           Sedang dipinjam
+           </small>
+            @endif
             <a href="/buku/{{ $item->id }}/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
             <a href="/buku/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
         </div>
@@ -46,7 +66,7 @@
 </div>
 @endforeach
 
-{{-- ✅ TAMBAHAN: SEMBUNYIKAN YANG ATAS --}}
+ {{-- ✅ TAMBAHAN: SEMBUNYIKAN YANG ATAS --}}
 @if($buku->count() == 0)
 
 <!-- BUKU 1 -->

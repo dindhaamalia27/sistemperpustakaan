@@ -12,9 +12,20 @@ use Carbon\Carbon; // ✅ TAMBAHAN
 
 class BukuController extends Controller
 {
-    public function index()
+  // ✅ SUDAH DIPERBAIKI (ADA SEARCH)
+    public function index(Request $request)
     {
+        $search = $request->search;
+
+    if ($search) {
+        $buku = Buku::where('judul', 'like', '%' . $search . '%')
+                    ->orWhere('pengarang', 'like', '%' . $search . '%')
+                    ->orWhere('penerbit', 'like', '%' . $search . '%')
+                    ->get();
+    } else {
         $buku = Buku::all();
+    }
+
         return view('page.petugas.buku.index', compact('buku'));
     }
 
@@ -128,35 +139,52 @@ public function pengembalian()
     }
 
     public function update(Request $request, $id)
-    {
-       $request->validate([
-        'stok' => 'required|integer|min:0',
-       ]);
-
-        $buku = Buku::findOrFail($id);
-
-        if ($request->hasFile('foto')) {
-
-            if ($buku->foto) {
-                Storage::disk('public')->delete($buku->foto);
-            }
-
-            $path = $request->file('cover')->store('buku', 'public');
-
-            $buku->foto = $path;
-        }
-
-        $buku->judul = $request->judul;
-        $buku->pengarang = $request->pengarang;
-        $buku->penerbit = $request->penerbit;
-        $buku->deskripsi = $request->deskripsi;
-        $buku->tahun_terbit = $request->tahun_terbit;
-        $buku->stok = $request->stok;
-
-        $buku->save();
-
-        return redirect()->route('petugas.buku.index');
+{
+    if ($request->stok < 0) {
+        return back();
     }
+
+    $request->validate([
+        'stok' => 'required|integer|min:0',
+    ]);
+
+    $buku = Buku::findOrFail($id);
+
+    // ✅ BAGIAN YANG DIPERBAIKI
+    if ($request->file('foto')) {
+
+    $file = $request->file('foto');
+
+    // ✅ ambil file lama
+    if ($buku->foto && Storage::disk('public')->exists($buku->foto)) {
+
+        $fileLama = Storage::disk('public')->path($buku->foto);
+
+        // bandingin hash file
+        if (md5_file($file->getRealPath()) === md5_file($fileLama)) {
+            return back()->with('error', 'Foto yang sama tidak boleh diupload');
+        }
+    }
+
+    if ($buku->foto) {
+        Storage::disk('public')->delete($buku->foto);
+    }
+
+    $path = $file->store('buku', 'public');
+    $buku->foto = $path;
+   }
+    $buku->judul = $request->judul;
+    $buku->pengarang = $request->pengarang;
+    $buku->penerbit = $request->penerbit;
+    $buku->deskripsi = $request->deskripsi;
+    $buku->tahun_terbit = $request->tahun_terbit;
+    $buku->stok = $request->stok;
+
+    $buku->save();
+
+    return redirect()->route('petugas.buku.index');
+}
+
 
     public function delete($id)
     {
