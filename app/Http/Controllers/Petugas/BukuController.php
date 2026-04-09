@@ -8,11 +8,11 @@ use App\Models\Petugas\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon; // ✅ TAMBAHAN
+use Carbon\Carbon;
 
 class BukuController extends Controller
 {
-  // ✅ SUDAH DIPERBAIKI (ADA SEARCH)
+
     public function index(Request $request)
     {
         $search = $request->search;
@@ -130,7 +130,7 @@ class BukuController extends Controller
         $data->denda = 0;
     }
 
-    // 🔥 WAJIB INI
+    
     $data->status = 'selesai';
 
     $data->save();
