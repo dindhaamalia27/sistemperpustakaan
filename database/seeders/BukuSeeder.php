@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Buku;
+use App\Models\Anggota\Buku;
 
 class BukuSeeder extends Seeder
 {
@@ -15,7 +15,8 @@ class BukuSeeder extends Seeder
             'penerbit' => 'Granmedia',
             'tahun_terbit' => 2018,
             'deskripsi' => 'Sinopsis: Seorang ibu meminta Si Tudung Merah mengantarkan makanan ke rumah neneknya yang sedang sakit.',
-            'cover' => 'cover1.jpg'
+            'foto' => 'cover1.jpg',
+            'stok' => 5
         ]);
 
         Buku::create([
@@ -24,7 +25,8 @@ class BukuSeeder extends Seeder
             'penerbit' => 'Galaxy Press',
             'tahun_terbit' => 2020,
             'deskripsi' => 'Buku tentang penjelajahan luar angkasa dan misteri galaksi.',
-            'cover' => 'cover2.jpg'
+            'foto' => 'cover2.jpg',
+            'stok' => 3
         ]);
 
         Buku::create([
@@ -33,7 +35,8 @@ class BukuSeeder extends Seeder
             'penerbit' => 'EduPress',
             'tahun_terbit' => 2019,
             'deskripsi' => 'Panduan lengkap belajar bahasa Indonesia untuk pelajar dan guru.',
-            'cover' => 'cover3.jpg'
+            'foto' => 'cover3.jpg',
+            'stok' => 2
         ]);
 
         Buku::create([
@@ -42,7 +45,8 @@ class BukuSeeder extends Seeder
             'penerbit' => 'Cerita Kita',
             'tahun_terbit' => 2017,
             'deskripsi' => 'Kisah persaudaraan dan petualangan seorang kakak dan adiknya.',
-            'cover' => 'cover4.jpg'
+            'foto' => 'cover4.jpg',
+            'stok' => 1
         ]);
     }
 }

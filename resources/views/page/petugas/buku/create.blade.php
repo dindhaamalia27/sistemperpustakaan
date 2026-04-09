@@ -59,8 +59,8 @@
 
                <!-- DESKRIPSI -->
               <div class="mb-3">
-              <label>Deskripsi</label>
-             <textarea name="deskripsi" class="form-control" rows="3"></textarea>
+              <label>   Sinopsis</label>
+             <textarea name="sinopsis" class="form-control" rows="3"></textarea>
              </div>
 
 

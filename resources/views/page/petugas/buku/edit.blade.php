@@ -36,7 +36,7 @@
 
             <!-- DESKRIPSI -->
             <div class="mb-3">
-                <label>Deskripsi</label>
+                <label>Sinopsis</label>
                 <textarea name="deskripsi" class="form-control" rows="3">{{ $buku->deskripsi }}</textarea>
             </div>
 
@@ -62,7 +62,7 @@
                     </div>
                 @endif
 
-               
+
                 <input type="file" name="foto" class="form-control">
 
             </div>

@@ -2,9 +2,10 @@
 
 @section('content')
 
-<div class="container-fluid" style="padding-left:260px; padding-top:20px;">
+<div class="container-fluid" style="padding-left:260px; padding-top: 100px; width:100%;">
+    <div style="max-width:720px; margin:0 auto; width:100%; padding: 0 20px;">
 
-<div class="card p-2 border-0 mx-auto" style="border-radius:15px; max-width:450px; background:#f1f1f1; position:relative; top:-10px; left:0px; box-shadow:none;">
+        <div class="card p-4 border-0 mx-auto" style="border-radius:24px; background:#ffffff; width:100%; box-shadow: 0 25px 70px rgba(0,0,0,0.08);">
 
 
         <!-- GAMBAR BUKU -->
@@ -36,14 +37,14 @@
                 <span class="badge bg-warning text-dark">Dipinjam</span>
             @endif
         </p>
-         <div class="mt-1">
-            <strong>Deskripsi</strong>
-            <p class="mb-0" style="font-size:13px;">
+         <div class="mt-3">
+            <strong>Sinopsis</strong>
+            <div style="max-height: 260px; overflow-y: auto; font-size:13px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fafafa; line-height: 1.7; white-space: pre-wrap;">
                 {{ $buku->deskripsi }}
-            </p>
+            </div>
         </div>
 
-        <div class="text-center mt-3">
+        <div class="text-center mt-4">
             <a href="{{ route('petugas.buku.index') }}" class="btn btn-secondary btn-sm">
                 Kembali
             </a>

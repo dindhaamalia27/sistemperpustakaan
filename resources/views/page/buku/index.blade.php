@@ -4,7 +4,7 @@
 
 <div class="container-fluid" style="padding-left:260px; padding-top:20px;">
 
-<!-- SEARCH -->
+<!-- Form pencarian buku -->
 <form method="GET" action="{{ route('buku.index') }}">
     <div class="mb-4 position-relative">
 
@@ -21,12 +21,12 @@
      </div>
 </form>
 
-<!-- LIST BUKU -->
+<!-- Daftar buku -->
 <div class="row">
 
 @php $search = strtolower(request('search')); @endphp
 
-{{-- ✅ TAMPILKAN DATA DARI PETUGAS --}}
+{{-- Loop untuk menampilkan buku dari database --}}
 @foreach($buku as $item)
 <div class="col-md-3 mb-4">
     <div class="card text-center shadow-sm p-3 border-0"
@@ -41,25 +41,47 @@
         <div>
 
             @php
+                // Hitung jumlah peminjaman aktif
                 $dipinjam = \App\Models\Peminjaman::where('judul_buku', $item->judul)
                     ->whereIn('status', ['pending','dipinjam'])
                     ->count();
+
+                $stok = $item->stok ?? 1;
             @endphp
 
-            @if($dipinjam > 0)
+            {{-- 🔥 STATUS --}}
+            @if($dipinjam >= $stok)
                 <small style="
-            background: orange;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            display: inline-block;
-            margin-bottom: 6px;
-            ">
-           Sedang dipinjam
-           </small>
+                    background: red;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-bottom: 6px;
+                ">
+                    Stok habis
+                </small>
+
+            @elseif($dipinjam > 0)
+                <small style="
+                    background: orange;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-bottom: 6px;
+                ">
+                    Sedang dipinjam
+                </small>
             @endif
-            <a href="/buku/{{ $item->id }}/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+
+            @if($dipinjam >= $stok)
+                <button class="btn btn-primary btn-sm" disabled>Pinjam</button>
+            @else
+                <a href="/buku/{{ $item->id }}/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @endif
             <a href="/buku/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
         </div>
     </div>
@@ -71,6 +93,12 @@
 
 <!-- BUKU 1 -->
 @if(!$search || str_contains('si tudung merah', $search))
+@php
+    $dipinjam1 = \App\Models\Peminjaman::where('judul_buku', 'Si Tudung Merah')
+        ->whereIn('status', ['pending','dipinjam'])
+        ->count();
+    $stok1 = 1;
+@endphp
 <div class="col-md-3 mb-4">
     <div class="card text-center shadow-sm p-3 border-0"
          style="border-radius:15px; background:#f1f1f1;">
@@ -82,7 +110,22 @@
         <p class="mb-2">Si Tudung Merah</p>
 
         <div>
-            <a href="/buku/1/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @if($dipinjam1 >= $stok1)
+                <small style="
+                    background: red;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-bottom: 6px;
+                ">
+                    Stok habis
+                </small>
+                <button class="btn btn-primary btn-sm" disabled>Pinjam</button>
+            @else
+                <a href="/buku/1/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @endif
             <a href="/buku/1" class="btn btn-info btn-sm">Detail</a>
         </div>
     </div>
@@ -91,6 +134,12 @@
 
 <!-- BUKU 2 -->
 @if(!$search || str_contains('angkasa', $search))
+@php
+    $dipinjam2 = \App\Models\Peminjaman::where('judul_buku', 'Angkasa')
+        ->whereIn('status', ['pending','dipinjam'])
+        ->count();
+    $stok2 = 1;
+@endphp
 <div class="col-md-3 mb-4">
     <div class="card text-center shadow-sm p-3 border-0"
          style="border-radius:15px; background:#f1f1f1;">
@@ -102,7 +151,22 @@
         <p class="mb-2">Angkasa</p>
 
         <div>
-            <a href="/buku/2/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @if($dipinjam2 >= $stok2)
+                <small style="
+                    background: red;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-bottom: 6px;
+                ">
+                    Stok habis
+                </small>
+                <button class="btn btn-primary btn-sm" disabled>Pinjam</button>
+            @else
+                <a href="/buku/2/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @endif
             <a href="/buku/2" class="btn btn-info btn-sm">Detail</a>
         </div>
     </div>
@@ -111,6 +175,12 @@
 
 <!-- BUKU 3 -->
 @if(!$search || str_contains('bahasa indonesia', $search))
+@php
+    $dipinjam3 = \App\Models\Peminjaman::where('judul_buku', 'Bahasa Indonesia')
+        ->whereIn('status', ['pending','dipinjam'])
+        ->count();
+    $stok3 = 1;
+@endphp
 <div class="col-md-3 mb-4">
     <div class="card text-center shadow-sm p-3 border-0"
          style="border-radius:15px; background:#f1f1f1;">
@@ -122,7 +192,22 @@
         <p class="mb-2">Bahasa Indonesia</p>
 
         <div>
-            <a href="/buku/3/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @if($dipinjam3 >= $stok3)
+                <small style="
+                    background: red;
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    display: inline-block;
+                    margin-bottom: 6px;
+                ">
+                    Stok habis
+                </small>
+                <button class="btn btn-primary btn-sm" disabled>Pinjam</button>
+            @else
+                <a href="/buku/3/pinjam" class="btn btn-primary btn-sm">Pinjam</a>
+            @endif
             <a href="/buku/3" class="btn btn-info btn-sm">Detail</a>
         </div>
     </div>
@@ -161,7 +246,6 @@
     overflow-y: auto;
 }
 
-/* hilangkan scrollbar (garis abu) */
 .container-fluid::-webkit-scrollbar {
     display: none;
 }

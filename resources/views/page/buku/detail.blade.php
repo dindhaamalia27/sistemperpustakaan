@@ -2,21 +2,12 @@
 
 @section('content')
 
-<style>
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-}
-</style>
+<div class="container-fluid" style="padding-left:260px; padding-top: 100px; width:100%;">
+    <div style="max-width:720px; margin:0 auto; width:100%; padding: 0 20px;">
+        <h5 class="mb-4 text-center" style="font-size: 26px; letter-spacing: 0.02em;">Detail Buku</h5>
 
-<div class="container" style="margin-top:-8px;">
-
-    <h5 class="mb-2 text-center">Detail Buku</h5>
-
-    <div class="card p-4 shadow mx-auto"
-         style="border-radius:20px; background:#f1f3f5; max-width:500px; width:100%;">
+        <div class="card p-4 shadow mx-auto"
+             style="border-radius:24px; background:#ffffff; width:100%; box-shadow:0 25px 70px rgba(0,0,0,0.08);">
 
        <!-- GAMBAR BUKU -->
         <div class="mb-2 text-center">
@@ -45,15 +36,15 @@
             @endif
         </p>
 
-        <div class="mt-1">
-            <strong>Deskripsi</strong>
-            <p class="mb-0" style="font-size:13px;">
+        <div class="mt-3">
+            <strong>Sinopsis</strong>
+            <div style="max-height: 260px; overflow-y: auto; font-size:13px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fafafa; line-height: 1.7; white-space: pre-wrap;">
                 {{ $buku->deskripsi }}
-            </p>
+            </div>
         </div>
 
         <!-- TOMBOL -->
-        <div class="mt-2 text-center">
+        <div class="mt-4 text-center">
             <a href="{{ route('buku.index') }}" class="btn btn-secondary btn-sm">
                 ← Kembali
             </a>

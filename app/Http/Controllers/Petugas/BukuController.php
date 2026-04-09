@@ -75,6 +75,21 @@ class BukuController extends Controller
     public function acc($id)
     {
         $data = Peminjaman::find($id);
+
+        if (!$data) {
+            return back()->with('error', 'Data peminjaman tidak ditemukan.');
+        }
+
+        $buku = Buku::find($data->buku_id);
+        if ($buku && $buku->stok <= 0) {
+            return back()->with('error', 'Stok buku tidak tersedia untuk disetujui.');
+        }
+
+        if ($buku) {
+            $buku->stok -= 1;
+            $buku->save();
+        }
+
         $data->status = 'dipinjam';
         $data->save();
 

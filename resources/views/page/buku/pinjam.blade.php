@@ -74,6 +74,7 @@
 
 <div class="form-group">
 <label>Judul Buku</label>
+<input type="hidden" name="buku_id" value="{{ $buku->id }}">
 <input type="text" name="judul_buku" value="{{ $buku->judul }}" readonly>
 </div>
 

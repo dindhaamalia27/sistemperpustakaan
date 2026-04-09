@@ -3,14 +3,14 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController; // ✅ FIX
+use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController;
 use App\Http\Controllers\Petugas\BukuController as PetugasBukuController;
-use App\Http\Controllers\Kepala\DashboardController as KepalaDashboardController; // ✅ TAMBAHAN
-use App\Http\Controllers\Kepala\BukuController as KepalaBukuController; // ✅ TAMBAHAN
+use App\Http\Controllers\Kepala\DashboardController as KepalaDashboardController;
+use App\Http\Controllers\Kepala\BukuController as KepalaBukuController;
 
 use Illuminate\Support\Facades\Route;
 
-// ================= LOGIN =================
+// Route untuk halaman login
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
@@ -18,7 +18,7 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.proses');
 
-// ================= REGISTER =================
+// Route untuk halaman register
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
@@ -26,10 +26,10 @@ Route::get('/register', function () {
 Route::post('/register', [AuthController::class, 'register'])
     ->name('register.proses');
 
-// ================= DASHBOARD =================
+// Route untuk dashboard anggota
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// ======= DASHBOARD PETUGAS =======
+// Route untuk petugas
 Route::prefix('petugas')->name('petugas.')->group(function () {
 
     // Redirect root petugas ke dashboard
@@ -40,7 +40,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     // Dashboard Petugas
     Route::get('/dashboard', [PetugasDashboardController::class, 'index'])->name('dashboard.index');
 
-   // ===== Buku Petugas =====
+   // Route untuk manajemen buku oleh petugas
    Route::get('/buku', [PetugasBukuController::class, 'index'])->name('buku.index');
    Route::get('/buku/create', [PetugasBukuController::class, 'create'])->name('buku.create');
    Route::post('/buku/store', [PetugasBukuController::class, 'store'])->name('buku.store');
@@ -110,6 +110,12 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 
      // ✅ TAMBAHAN (INI DOANG YANG DITAMBAH)
     Route::post('/petugas', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+        ]);
+
         \App\Models\User::create([
             'name' => $request->name,
             'email' => $request->email,

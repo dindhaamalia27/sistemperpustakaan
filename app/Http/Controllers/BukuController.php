@@ -4,45 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota\Buku;
 use App\Models\Peminjaman;
-use Illuminate\Support\Facades\Auth; // taro di atas
-
+use Illuminate\Support\Facades\Auth; // Import untuk autentikasi
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
+    // Method untuk menampilkan daftar buku dengan fitur pencarian
     public function index(Request $request)
-{
-    $search = $request->search;
+    {
+        $search = $request->search;
 
-    if ($search) {
-        $buku = Buku::where('judul', 'like', '%' . $search . '%')
-                    ->orWhere('pengarang', 'like', '%' . $search . '%')
-                    ->orWhere('penerbit', 'like', '%' . $search . '%')
-                    ->get();
-    } else {
-        $buku = Buku::all();
+        if ($search) {
+            $buku = Buku::where('judul', 'like', '%' . $search . '%')
+                        ->orWhere('pengarang', 'like', '%' . $search . '%')
+                        ->orWhere('penerbit', 'like', '%' . $search . '%')
+                        ->get();
+        } else {
+            $buku = Buku::all();
+        }
+
+        return view('page.buku.index', compact('buku'));
     }
 
-    return view('page.buku.index', compact('buku'));
-}
-
+    // Method untuk menampilkan detail buku
     public function detail($id)
     {
         $buku = Buku::findOrFail($id);
         return view('page.buku.detail', compact('buku'));
     }
 
+    // Method untuk halaman pinjam buku
     public function pinjam($id)
     {
         $buku = Buku::findOrFail($id);
         return view('page.buku.pinjam', compact('buku'));
     }
 
-    // SIMPAN DATA PINJAM
+    // Method untuk menyimpan data peminjaman
     public function simpanPinjam(Request $request)
     {
 
-        // 🔥 TAMBAHAN (BIAR AMAN USER SELALU YANG LOGIN SEKARANG)
+        // Cek apakah user sudah login
         if (!Auth::check()) {
             return redirect('/login');
         }
@@ -59,16 +61,12 @@ class BukuController extends Controller
             return back()->with('error', 'Stok buku habis!');
         }
 
-        // 🔥 KURANGI STOK
-        if ($buku) {
-            $buku->stok -= 1;
-            $buku->save();
-        }
-
         // 🔥 TAMBAHAN (AMBIL USER SEKARANG BIAR GA KETUKER)
         $user = Auth::user();
 
         Peminjaman::create([
+            'buku_id' => $request->buku_id,
+            'user_id' => $user->id,
             'judul_buku' => $request->judul_buku,
             'nama' => $user->nama ?? $user->name,
             'tanggal_pinjam' => $request->tanggal_pinjam,
@@ -98,14 +96,22 @@ class BukuController extends Controller
     {
         $pinjam = Peminjaman::findOrFail($id);
 
-        // 🔥 VALIDASI (TAMBAHKAN DI SINI)
-        if ($request->tanggal_kembali < $pinjam->tanggal_jatuh_tempo) {
-        return back()->with('error', 'Tanggal kembali tidak boleh sebelum jatuh tempo!');
+        if ($pinjam->status !== 'dipinjam') {
+            return back()->with('error', 'Buku hanya bisa dikembalikan setelah disetujui dan dalam status dipinjam.');
         }
 
-        $pinjam->tanggal_kembali = $request->tanggal_kembali;
-        $pinjam->denda = $request->denda;
-        $pinjam->status = 'dikembalikan'; // ✅ GANTI DI SINI
+        $tanggalKembali = date('Y-m-d');
+        $tanggalJatuhTempo = $pinjam->tanggal_jatuh_tempo;
+        $denda = 0;
+
+        if ($tanggalKembali > $tanggalJatuhTempo) {
+            $selisih = (new \DateTime($tanggalKembali))->diff(new \DateTime($tanggalJatuhTempo))->days;
+            $denda = $selisih * 5000;
+        }
+
+        $pinjam->tanggal_kembali = $tanggalKembali;
+        $pinjam->denda = $denda;
+        $pinjam->status = 'dikembalikan';
 
         $pinjam->save();
 

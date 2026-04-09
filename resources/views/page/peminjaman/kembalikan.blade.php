@@ -107,12 +107,12 @@
 
 <div class="form-group">
 <label>Tanggal kembali</label>
-<input type="date" name="tanggal_kembali" value="{{ date('Y-m-d') }}">
+<input type="text" value="{{ date('Y-m-d') }}" readonly>
 </div>
 
 <div class="form-group">
 <label>Denda</label>
-<input type="text" name="denda" value="5000">
+<input type="text" value="{{ date('Y-m-d') <= $data->tanggal_jatuh_tempo ? 0 : ((new \DateTime(date('Y-m-d')))->diff(new \DateTime($data->tanggal_jatuh_tempo))->days * 5000) }}" readonly>
 </div>
 
 <div class="button-area">
@@ -124,26 +124,5 @@
 
 </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const jatuhTempo = new Date("{{ $data->tanggal_jatuh_tempo }}");
-    const tanggalKembaliInput = document.querySelector('input[name="tanggal_kembali"]');
-    const dendaInput = document.querySelector('input[name="denda"]');
-
-    tanggalKembaliInput.addEventListener('change', function () {
-        let tanggalKembali = new Date(this.value);
-
-        if (tanggalKembali > jatuhTempo) {
-            let selisih = Math.ceil((tanggalKembali - jatuhTempo) / (1000 * 60 * 60 * 24));
-            let denda = selisih * 5000; // 5000 per hari
-            dendaInput.value = denda;
-        } else {
-            dendaInput.value = 0;
-        }
-    });
-
-});
-</script>
 
 @endsection

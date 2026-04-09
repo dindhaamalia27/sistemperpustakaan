@@ -6,6 +6,22 @@
     <title>@yield('title', 'Dashboard Petugas')</title>
 
     <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet">
+    <style>
+        html, body {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            min-height: 100% !important;
+            height: auto !important;
+        }
+        .page-wrapper,
+        .body-wrapper {
+            overflow: visible !important;
+            min-height: 100vh !important;
+        }
+        .body-wrapper {
+            padding-top: 60px !important;
+        }
+    </style>
 </head>
 <body>
 

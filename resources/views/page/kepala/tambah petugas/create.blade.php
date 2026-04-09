@@ -18,6 +18,16 @@
 
           <form action="{{ route('kepala.petugas.store') }}" method="POST">
     @csrf
+                @if ($errors->any())
+                    <div style="margin-bottom:15px; padding:12px; background:#ffe6e6; border:1px solid #e74c3c; border-radius:8px; color:#c0392b;">
+                        <strong>Perbaiki dulu ini:</strong>
+                        <ul style="margin:10px 0 0 16px; padding:0; list-style:disc;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <!-- NAMA -->
                 <div style="margin-bottom:15px;">
                     <label style="font-size:13px;">Nama</label><br>

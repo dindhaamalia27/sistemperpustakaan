@@ -1,40 +1,32 @@
 <style>
-
-.app-header .navbar {
-
-    margin-left: 260px; w
-    width: calc(100vw - 260px);
-
-    width: calc(100vw - 260px);
-    max-width: calc(100vw - 260px);
-
-    padding-left: 2px;
-    transform: translateX(-2px);
-
-    position: relative;
-    left: -25px; /* TAMBAHAN biar bener-bener mentok */
-}
 .app-header {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 260px;
     right: 0;
     z-index: 1000;
+    min-height: 60px;
+    background: #83c2e1;
 }
-
-/* kunci scroll tanpa bikin layout geser */
+.app-header .navbar {
+    margin: 0;
+    min-height: 60px;
+    width: 100%;
+    padding: 0 20px;
+}
 html, body {
-    overflow: hidden;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    min-height: 100% !important;
     margin: 0;
 }
 </style>
 
- <header class="app-header" style="position:relative; z-index:1; margin-top:-15px;">
-    <nav class="navbar navbar-expand-lg navbar-light" style="height:20px; border-bottom:1px solid #ddd; padding-right:20px; background:#83c2e1 !important;">
-            <div class="navbar-collapse justify-content-end px-3" style="display:flex; align-items:center;">
+<header class="app-header">
+    <nav class="navbar navbar-expand-lg navbar-light" style="border-bottom:1px solid #ddd; background:#83c2e1 !important;">
+        <div class="navbar-collapse justify-content-end px-3" style="display:flex; align-items:center;">
             <ul class="navbar-nav align-items-center">
-                    <li class="nav-item" style="display:flex; align-items:center;">
-                </li>
+                <li class="nav-item" style="display:flex; align-items:center;"></li>
             </ul>
         </div>
     </nav>
