@@ -130,8 +130,27 @@ class BukuController extends Controller
         $data->denda = 0;
     }
 
-    
     $data->status = 'selesai';
+
+    $data->save();
+
+    // Tambah stok buku
+    $buku = \App\Models\Petugas\Buku::find($data->buku_id);
+    if ($buku) {
+        $buku->stok += 1;
+        $buku->save();
+    }
+
+    return back();
+}
+
+public function tolakPengembalian($id)
+{
+    $data = Peminjaman::findOrFail($id);
+
+    $data->tanggal_kembali = null;
+    $data->denda = null;
+    // status tetap 'dipinjam'
 
     $data->save();
 

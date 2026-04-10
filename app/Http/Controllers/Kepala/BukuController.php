@@ -38,6 +38,6 @@ class BukuController extends Controller
             'foto' => $path,
         ]);
 
-        return redirect()->route('petugas.buku.index');
+        return redirect()->route('kepala.buku.index');
     }
 }

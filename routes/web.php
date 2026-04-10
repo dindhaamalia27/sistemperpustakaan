@@ -7,7 +7,8 @@ use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardControll
 use App\Http\Controllers\Petugas\BukuController as PetugasBukuController;
 use App\Http\Controllers\Kepala\DashboardController as KepalaDashboardController;
 use App\Http\Controllers\Kepala\BukuController as KepalaBukuController;
-
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
@@ -64,8 +65,11 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
         $data = \App\Models\Petugas\Peminjaman::whereNotNull('tanggal_kembali')->get();
     return view('page.petugas.data pengembalian.index', compact('data')); })->name('pengembalian.index');
     Route::post('/pengembalian/{id}/terima', [PetugasBukuController::class, 'terima'])->name('pengembalian.terima');
-    Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolak'])->name('pengembalian.tolak');
+    Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolakPengembalian'])->name('pengembalian.tolak');
     Route::delete('/pengembalian/{id}', [PetugasBukuController::class, 'deletePengembalian'])->name('pengembalian.destroy');
+
+    // Profil petugas
+    Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
 
     // Denda
     Route::get('/denda', function () {
@@ -98,6 +102,9 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     $data = \App\Models\Peminjaman::all(); // 🔥 ambil data
     return view('page.kepala.laporan.index', compact('data'));
      })->name('laporan.index');
+
+    // Profil kepala
+    Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
 
     // ======Tambah petugas ==
         Route::get('/petugas', function () {
@@ -168,9 +175,12 @@ Route::get('/peminjaman', [BukuController::class,'peminjaman'])->name('peminjama
 Route::get('/peminjaman/{id}/form-kembali', [BukuController::class,'formKembali'])->name('peminjaman.formkembali');
 Route::post('/peminjaman/{id}/kembalikan', [BukuController::class,'kembalikan'])->name('peminjaman.kembalikan');
 
+// ================= PROFIL =================
+Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
+
 // ================= PENGEMBALIAN =================
 Route::get('/pengembalian', function () {
-    $data = \App\Models\Peminjaman::whereNotNull('tanggal_kembali')->get();
+    $data = \App\Models\Peminjaman::where('user_id', Auth::id())->whereNotNull('tanggal_kembali')->get();
     return view('page.pengembalian.index', compact('data'));
 })->name('pengembalian.index');
 

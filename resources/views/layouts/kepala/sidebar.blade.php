@@ -23,6 +23,7 @@
     <div style="text-align:center; padding:4px 0;">
 
         <!-- INISIAL K -->
+        <a href="{{ route('kepala.profil.index') }}" style="text-decoration:none; color:inherit;">
         <div style="
             width:50px;
             height:50px;
@@ -35,9 +36,11 @@
             margin:auto;
             font-weight:bold;
             font-size:18px;
+            cursor:pointer;
         ">
-            K
+            {{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->name, 0, 1)) }}
         </div>
+        </a>
 
         <div style="font-size:12px; margin-top:4px;">kepala</div>
 

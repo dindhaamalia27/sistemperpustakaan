@@ -80,7 +80,7 @@ class BukuController extends Controller
     // TAMPILKAN DATA PEMINJAMAN
     public function peminjaman()
     {
-        $data = Peminjaman::all();
+        $data = Peminjaman::where('user_id', Auth::id())->get();
         return view('page.peminjaman.index', compact('data'));
     }
 
@@ -100,28 +100,8 @@ class BukuController extends Controller
             return back()->with('error', 'Buku hanya bisa dikembalikan setelah disetujui dan dalam status dipinjam.');
         }
 
-        $tanggalKembali = date('Y-m-d');
-        $tanggalJatuhTempo = $pinjam->tanggal_jatuh_tempo;
-        $denda = 0;
-
-        if ($tanggalKembali > $tanggalJatuhTempo) {
-            $selisih = (new \DateTime($tanggalKembali))->diff(new \DateTime($tanggalJatuhTempo))->days;
-            $denda = $selisih * 5000;
-        }
-
-        $pinjam->tanggal_kembali = $tanggalKembali;
-        $pinjam->denda = $denda;
-        $pinjam->status = 'dikembalikan';
-
+        $pinjam->tanggal_kembali = now();
         $pinjam->save();
-
-        // 🔥 TAMBAH STOK
-        $buku = Buku::where('judul', $pinjam->judul_buku)->first();
-
-        if ($buku) {
-            $buku->stok += 1;
-            $buku->save();
-        }
 
         return redirect('/pengembalian');
     }

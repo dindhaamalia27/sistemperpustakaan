@@ -90,8 +90,8 @@
           @elseif($item->status == 'selesai' && $item->denda == 0)
         <span class="badge bg-success">Tepat waktu</span>
 
-    {{-- MENUNGGU (PAKSA PRIORITAS) --}}
-    @elseif($item->tanggal_kembali && !$item->denda)
+    {{-- MENUNGGU --}}
+    @elseif($item->tanggal_kembali)
         <span class="badge bg-warning text-dark">Menunggu</span>
 
     {{-- DEFAULT --}}

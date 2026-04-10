@@ -3,41 +3,63 @@
 @section('content')
 
 <style>
-    .container {
-        max-width: 900px;
-         margin-left: 260px; /* ⬅️ tambahin di sini */
+    .table td, .table th {
+        border: none !important;
+        padding: 4px !important;
+        font-size: 12px;
+        white-space: nowrap;
     }
 
+    /* MATIIN SCROLL */
+    .card {
+        overflow-x: hidden !important;
+    }
+
+    /* BIAR FULL 1 LAYAR */
     table {
-        font-size: 13px;
+        width: 100% !important;
     }
 
     th, td {
-        padding: 6px 8px;
+        text-align: center;
+    }
+
+    /* BIAR TULISAN KE POTONG, BUKAN TURUN */
+    td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* KASIH RUANG STATUS & AKSI */
+    td:nth-child(5) {
+        width: 120px;
+    }
+
+    td:nth-child(6) {
+        width: 140px;
     }
 </style>
 
-<div class="container mt-4">
+<div class="container-fluid" style="padding-left:260px; padding-top:0px;">
 
     <h4 class="mb-4 fw-semibold">Data Peminjaman</h4>
 
-    <div class="card border-0 shadow-sm" style="border-radius: 15px;">
-        <div class="card-body">
+    <div class="card p-3 shadow-sm border-0"
+         style="border-radius:15px; background:#F6F4F4;">
 
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead class="text-muted" style="font-size: 14px;">
-                        <tr>
-                            <th>Judul Buku</th>
-                            <th>Peminjam</th>
-                            <th>Tanggal pinjam</th>
-                            <th>Jatuh tempo</th>
-                            <th>Status</th>
-                            <th class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
+        <table class="table align-middle" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Judul Buku</th>
+                    <th>Peminjam</th>
+                    <th>Tanggal pinjam</th>
+                    <th>Jatuh tempo</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
 
-                    <tbody style="font-size: 14px;">
+                    <tbody>
                         @foreach($peminjaman as $item)
                         <tr>
                            <td>{{ $item->judul_buku }}</td>
@@ -64,26 +86,21 @@
                          </td>
 
                             {{-- AKSI --}}
-                            <td class="text-center">
-                        @if($item->status == 'pending')
-                           <a href="{{ route('petugas.acc', $item->id) }}" class="btn btn-primary btn-sm rounded-pill px-3">Acc</a>
-                          <a href="{{ route('petugas.tolak', $item->id) }}" class="btn btn-danger btn-sm rounded-pill px-3">tolak</a>
-
-
-                          @else
-
-                       @endif
-                         </td>
+                            <td>
+                                @if($item->status == 'pending')
+                                    <a href="{{ route('petugas.acc', $item->id) }}" class="btn btn-success btn-sm">Acc</a>
+                                    <a href="{{ route('petugas.tolak', $item->id) }}" class="btn btn-warning btn-sm">Tolak</a>
+                                @else
+                                    -
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
 
                 </table>
-            </div>
 
         </div>
     </div>
-
-</div>
 
 @endsection
