@@ -61,9 +61,8 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 
 
    //pengembalian petugas
-    Route::get('/pengembalian', function () {
-        $data = \App\Models\Petugas\Peminjaman::whereNotNull('tanggal_kembali')->get();
-    return view('page.petugas.data pengembalian.index', compact('data')); })->name('pengembalian.index');
+    Route::get('/pengembalian', [PetugasBukuController::class, 'pengembalian'])->name('pengembalian.index');
+    Route::get('/pengembalian/{id}/cetak', [PetugasBukuController::class, 'cetakStruk'])->name('pengembalian.cetak');
     Route::post('/pengembalian/{id}/terima', [PetugasBukuController::class, 'terima'])->name('pengembalian.terima');
     Route::post('/pengembalian/{id}/tolak', [PetugasBukuController::class, 'tolakPengembalian'])->name('pengembalian.tolak');
     Route::delete('/pengembalian/{id}', [PetugasBukuController::class, 'deletePengembalian'])->name('pengembalian.destroy');

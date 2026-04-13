@@ -100,7 +100,33 @@ class BukuController extends Controller
             return back()->with('error', 'Buku hanya bisa dikembalikan setelah disetujui dan dalam status dipinjam.');
         }
 
-        $pinjam->tanggal_kembali = now();
+        $request->validate([
+            'tanggal_kembali' => ['required','date','after_or_equal:'.$pinjam->tanggal_pinjam],
+            'kondisi' => 'required|in:baik,rusak,hilang',
+        ]);
+
+        $tanggalKembali = $request->tanggal_kembali;
+        $kondisi = $request->kondisi;
+        $tanggalJatuhTempo = $pinjam->tanggal_jatuh_tempo;
+
+        if ($kondisi === 'baik') {
+            $kembaliDate = new \DateTime($tanggalKembali);
+            $tempoDate = new \DateTime($tanggalJatuhTempo);
+            $selisih = 0;
+            if ($kembaliDate > $tempoDate) {
+                $selisih = $kembaliDate->diff($tempoDate)->days;
+            }
+            $denda = $selisih * 5000;
+        } elseif ($kondisi === 'rusak') {
+            $denda = 30000;
+        } else {
+            $denda = 100000;
+        }
+
+        $pinjam->tanggal_kembali = $tanggalKembali;
+        $pinjam->kondisi = $kondisi;
+        $pinjam->denda = $denda;
+        $pinjam->status = 'dikembalikan';
         $pinjam->save();
 
         return redirect('/pengembalian');

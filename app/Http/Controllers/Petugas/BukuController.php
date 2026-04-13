@@ -143,32 +143,21 @@ class BukuController extends Controller
         return back();
     }
 
-    // Petugas menerima pengembalian + hitung denda
+    // Petugas menerima pengembalian + hitung denda final
     public function terima($id)
     {
         $data = Peminjaman::findOrFail($id);
 
-        // Ambil tanggal kembali & jatuh tempo
-        $kembali = Carbon::parse($data->tanggal_kembali);
-        $tempo = Carbon::parse($data->tanggal_jatuh_tempo);
-
-        // Cek apakah telat
-        if ($kembali->gt($tempo)) {
-            $data->denda = 5000; // denda jika telat
-        } else {
-            $data->denda = 0; // tidak ada denda
-        }
-
-        // Status selesai
         $data->status = 'selesai';
-
         $data->save();
 
-        // Tambah stok buku kembali
-        $buku = \App\Models\Petugas\Buku::find($data->buku_id);
-        if ($buku) {
-            $buku->stok += 1;
-            $buku->save();
+        // Tambah stok buku kembali hanya jika kondisi baik
+        if ($data->kondisi === 'baik') {
+            $buku = \App\Models\Petugas\Buku::find($data->buku_id);
+            if ($buku) {
+                $buku->stok += 1;
+                $buku->save();
+            }
         }
 
         return back();
@@ -181,6 +170,7 @@ class BukuController extends Controller
 
         // Reset data pengembalian
         $data->tanggal_kembali = null;
+        $data->kondisi = null;
         $data->denda = null;
         // status tetap dipinjam
 
@@ -194,7 +184,14 @@ class BukuController extends Controller
     {
         $data = Peminjaman::whereNotNull('tanggal_kembali')->get();
 
-        return view('page.petugas.data_pengembalian.index', compact('data'));
+        return view('page.petugas.data pengembalian.index', compact('data'));
+    }
+
+    // Cetak struk pengembalian
+    public function cetakStruk($id)
+    {
+        $data = Peminjaman::findOrFail($id);
+        return view('page.petugas.data pengembalian.struk', compact('data'));
     }
 
     // Menampilkan form edit buku

@@ -61,8 +61,8 @@ width:90%;
 
 
 @elseif($item->status == 'dikembalikan')
-    <span style="background:green; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
-        selesai
+    <span style="background:#f0ad4e; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
+        menunggu acc
     </span>
 
 
@@ -89,6 +89,10 @@ width:90%;
             kembalikan
         </a>
     @elseif($item->status == 'pending')
+        <span style="background:#f0ad4e; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
+            menunggu acc
+        </span>
+    @elseif($item->status == 'dikembalikan')
         <span style="background:#f0ad4e; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
             menunggu acc
         </span>

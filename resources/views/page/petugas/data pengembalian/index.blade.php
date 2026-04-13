@@ -5,14 +5,9 @@
 <style>
     .table td, .table th {
         border: none !important;
-        padding: 4px !important;
+        padding: 6px 4px !important;
         font-size: 12px;
         white-space: nowrap;
-    }
-
-    /* MATIIN SCROLL */
-    .card {
-        overflow-x: hidden !important;
     }
 
     /* BIAR FULL 1 LAYAR */
@@ -32,11 +27,22 @@
 
     /* KASIH RUANG STATUS & AKSI */
     td:nth-child(7) {
-        width: 120px;
+        width: 110px;
     }
 
     td:nth-child(8) {
-        width: 100px;
+        width: 110px;
+    }
+
+    td:nth-child(9) {
+        width: 250px;
+        text-align: left;
+        overflow: visible !important;
+    }
+
+    /* SCROLL HORIZONTAL */
+    .card {
+        overflow-x: auto;
     }
 </style>
 
@@ -57,6 +63,7 @@
                     <th>Tanggal pinjam</th>
                     <th>Jatuh tempo</th>
                     <th>Tanggal kembali</th>
+                    <th>Kondisi</th>
                     <th>Denda</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -71,9 +78,9 @@
                     <td>{{ $item->tanggal_pinjam }}</td>
                     <td>{{ $item->tanggal_jatuh_tempo }}</td>
                     <td>{{ $item->tanggal_kembali ?? '-' }}</td>
-
+                    <td>{{ $item->kondisi ?? '-' }}</td>
                     <td>
-                        @if($item->denda)
+                        @if($item->denda !== null)
                             {{ number_format($item->denda, 0, ',', '.') }}
                         @else
                             -
@@ -82,16 +89,16 @@
 
                       <td>
 
-                {{-- TERLAMBAT --}}
+                {{-- SELESAI DENGAN DENDA --}}
               @if($item->status == 'selesai' && $item->denda > 0)
-        <span class="badge bg-danger">Terlambat</span>
+        <span class="badge bg-success">Selesai</span>
 
-            {{-- TEPAT WAKTU --}}
+            {{-- SELESAI TANPA DENDA --}}
           @elseif($item->status == 'selesai' && $item->denda == 0)
-        <span class="badge bg-success">Tepat waktu</span>
+        <span class="badge bg-success">Selesai</span>
 
     {{-- MENUNGGU --}}
-    @elseif($item->tanggal_kembali)
+    @elseif($item->status == 'dikembalikan')
         <span class="badge bg-warning text-dark">Menunggu</span>
 
     {{-- DEFAULT --}}
@@ -104,8 +111,8 @@
 
 
 <td>
-          {{-- TERIMA --}}
-        @if($item->tanggal_kembali)
+          {{-- TERIMA/TOLAK HANYA UNTUK MENUNGGU --}}
+        @if($item->status == 'dikembalikan')
         <form action="{{ route('petugas.pengembalian.terima', $item->id) }}" method="POST" style="display:inline;">
             @csrf
             <button type="submit" class="btn btn-success btn-sm">Terima</button>
@@ -115,13 +122,15 @@
             @csrf
             <button class="btn btn-warning btn-sm">Tolak</button>
         </form>
+        <form action="{{ route('petugas.pengembalian.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')" style="display:inline; margin-left:4px;">
+            @csrf
+            @method('DELETE')
+            <button class="btn btn-danger btn-sm">Hapus</button>
+        </form>
            @endif
-      {{-- HAPUS --}}
-       <form action="{{ route('petugas.pengembalian.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger btn-sm">Hapus</button>
-            </form>
+            @if($item->status == 'selesai' && $item->denda > 0)
+                <a href="{{ route('petugas.pengembalian.cetak', $item->id) }}" class="btn btn-primary btn-sm" style="display:inline; margin-left:4px;">Cetak</a>
+            @endif
            </td>
                 </tr>
                 @endforeach

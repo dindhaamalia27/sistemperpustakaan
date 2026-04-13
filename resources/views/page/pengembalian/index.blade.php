@@ -44,7 +44,7 @@ width:100%;
 </td>
 
 <td style="padding:10px; text-align:center; width:100px;">
-    {{ $item->denda ? number_format($item->denda,0,',','.') : '-' }}
+    {{ $item->denda !== null ? number_format($item->denda,0,',','.') : '-' }}
 </td>
 
 <!-- STATUS -->

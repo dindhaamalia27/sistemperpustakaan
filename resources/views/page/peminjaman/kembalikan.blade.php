@@ -107,22 +107,78 @@
 
 <div class="form-group">
 <label>Tanggal kembali</label>
-<input type="text" value="{{ date('Y-m-d') }}" readonly>
+<input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', date('Y-m-d')) }}" min="{{ $data->tanggal_pinjam }}" required>
+</div>
+
+<div class="form-group">
+<label>Kondisi buku</label>
+<select name="kondisi" id="kondisi" required>
+    <option value="">Pilih kondisi</option>
+    <option value="baik">Baik</option>
+    <option value="rusak">Rusak</option>
+    <option value="hilang">Hilang</option>
+</select>
 </div>
 
 <div class="form-group">
 <label>Denda</label>
-<input type="text" value="{{ date('Y-m-d') <= $data->tanggal_jatuh_tempo ? 0 : ((new \DateTime(date('Y-m-d')))->diff(new \DateTime($data->tanggal_jatuh_tempo))->days * 5000) }}" readonly>
+<input type="text" id="denda_text" value="Rp 0" readonly>
+<input type="hidden" name="denda" id="denda" value="0">
 </div>
 
 <div class="button-area">
 <a href="/peminjaman" class="btn-batal">Batal</a>
-<button type="submit" class="btn-simpan">Simpan</button>
+<button type="submit" class="btn-simpan">Ajukan</button>
 </div>
 
 </form>
 
 </div>
 </div>
+
+<script>
+    const tanggalKembaliInput = document.getElementById('tanggal_kembali');
+    const kondisiInput = document.getElementById('kondisi');
+    const dendaInput = document.getElementById('denda');
+    const dendaText = document.getElementById('denda_text');
+    const tanggalJatuhTempo = '{{ $data->tanggal_jatuh_tempo }}';
+
+    function formatRupiah(value) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+        }).format(value);
+    }
+
+    function hitungDenda() {
+        const kondisi = kondisiInput.value;
+        const tanggalKembali = tanggalKembaliInput.value;
+
+        if (!kondisi || !tanggalKembali) {
+            dendaInput.value = 0;
+            dendaText.value = formatRupiah(0);
+            return;
+        }
+
+        let denda = 0;
+        if (kondisi === 'baik') {
+            const kembali = new Date(tanggalKembali);
+            const tempo = new Date(tanggalJatuhTempo);
+            const hariTelat = Math.max(0, Math.floor((kembali - tempo) / (1000 * 60 * 60 * 24)));
+            denda = hariTelat * 5000;
+        } else if (kondisi === 'rusak') {
+            denda = 30000;
+        } else if (kondisi === 'hilang') {
+            denda = 100000;
+        }
+
+        dendaInput.value = denda;
+        dendaText.value = formatRupiah(denda);
+    }
+
+    tanggalKembaliInput.addEventListener('change', hitungDenda);
+    kondisiInput.addEventListener('change', hitungDenda);
+</script>
 
 @endsection
