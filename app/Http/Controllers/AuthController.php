@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     $request->session()->regenerate();
 
-    // ✅ TAMBAHAN (biar nambah tiap login)
+    // TAMBAHAN (biar nambah tiap login)
    /** @var \App\Models\User $user */
      $user = Auth::user();
    $user->login_count = $user->login_count + 1;

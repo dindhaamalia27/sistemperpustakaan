@@ -53,15 +53,15 @@ class BukuController extends Controller
             'tanggal_pinjam' => 'required|date|after_or_equal:today',
         ]);
 
-        // 🔥 AMBIL DATA BUKU
+        //  AMBIL DATA BUKU
         $buku = Buku::where('judul', $request->judul_buku)->first();
 
-        // 🔥 CEK STOK
+        //  CEK STOK
         if ($buku && $buku->stok <= 0) {
             return back()->with('error', 'Stok buku habis!');
         }
 
-        // 🔥 TAMBAHAN (AMBIL USER SEKARANG BIAR GA KETUKER)
+        // TAMBAHAN (AMBIL USER SEKARANG BIAR GA KETUKER)
         $user = Auth::user();
 
         Peminjaman::create([

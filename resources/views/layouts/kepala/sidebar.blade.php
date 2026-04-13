@@ -15,7 +15,7 @@
     <!-- JUDUL -->
     <div style="text-align:center; padding:4px 0;">
         <div style="font-size:14px; font-weight:600; line-height:18px; margin:0;">
-           Sistem <br>Perpustakaan Digital
+           Sistem <br>Perpustakaan 
         </div>
     </div>
 

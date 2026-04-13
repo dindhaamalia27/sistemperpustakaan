@@ -85,7 +85,7 @@
 
 <div class="form-group">
 <label>Tanggal jatuh tempo</label>
-<input type="date" name="tanggal_jatuh_tempo" value="{{ date('Y-m-d', strtotime('+7 days')) }}" readonly>
+<input type="date" name="tanggal_jatuh_tempo" value="{{ date('Y-m-d', strtotime('+2 days')) }}" readonly>
 </div>
 
 <div class="button-area">
