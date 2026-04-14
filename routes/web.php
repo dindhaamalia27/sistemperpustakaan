@@ -50,7 +50,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
    Route::get('/buku/edit/{id}', [PetugasBukuController::class, 'edit'])->name('buku.edit');
    Route::put('/buku/update/{id}', [PetugasBukuController::class, 'update'])->name('buku.update');
 
-   // ===== ✅ TAMBAHKAN DI SINI (Data Anggota) =====
+   // =====  TAMBAHKAN DI SINI (Data Anggota) =====
    Route::get('/anggota', [PetugasBukuController::class, 'anggota'])->name('anggota.index');
    Route::delete('/anggota/{id}', [PetugasBukuController::class, 'deleteAnggota'])->name('anggota.delete');
 
@@ -85,7 +85,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     // ====== Buku kepala =====
      Route::get('/buku', [KepalaBukuController::class, 'index'])->name('buku.index');
 
-        // ✅ TAMBAH DI SINI
+        // TAMBAH DI SINI
     Route::get('/buku/{id}', function ($id) {
     $buku = \App\Models\Petugas\Buku::findOrFail($id);
     return view('page.kepala.buku.detail', compact('buku'));
@@ -98,9 +98,16 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
         return view('page.kepala.anggota.index'); })->name('anggota.index');
 
     Route::get('/laporan', function () {
-    $data = \App\Models\Peminjaman::all(); // 🔥 ambil data
+    $data = \App\Models\Peminjaman::all(); // ambil data
     return view('page.kepala.laporan.index', compact('data'));
      })->name('laporan.index');
+
+
+Route::get('/laporan/cetak', [\App\Http\Controllers\Kepala\LaporanController::class, 'cetak'])->name('laporan.cetak');
+
+// Profil kepala
+Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
+
 
     // Profil kepala
     Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
@@ -114,7 +121,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
       return view('page.kepala.tambah petugas.create');
      })->name('petugas.create');
 
-     // ✅ TAMBAHAN (INI DOANG YANG DITAMBAH)
+     // TAMBAHAN (INI DOANG YANG DITAMBAH)
     Route::post('/petugas', function (\Illuminate\Http\Request $request) {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -132,7 +139,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
         return redirect()->route('kepala.petugas.index');
     })->name('petugas.store');
 
-    // 🔥 TARO DI SINI ↓↓↓
+
 
     // EDIT
     Route::get('/petugas/{id}/edit', function ($id) {
@@ -182,6 +189,7 @@ Route::get('/pengembalian', function () {
     $data = \App\Models\Peminjaman::where('user_id', Auth::id())->whereNotNull('tanggal_kembali')->get();
     return view('page.pengembalian.index', compact('data'));
 })->name('pengembalian.index');
+
 
 // ================= LOGOUT =================
 Route::post('/logout', [AuthController::class, 'logout'])

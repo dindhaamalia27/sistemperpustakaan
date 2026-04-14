@@ -82,20 +82,25 @@
 
 <div class="container-data">
 
- <div style="display:flex; gap:10px; margin-bottom:20px; font-size:16px; font-weight:bold;">
+<div style="display:flex; gap:10px; margin-bottom:20px; font-size:16px; font-weight:bold;">
     <div>Daftar Peminjaman</div>
     <div>Dan</div>
     <div>Daftar Pengembalian</div>
- </div>
+</div>
 
- <!-- FILTER -->
- <div style="margin-bottom:15px;">
+<!-- FILTER -->
+<div style="margin-bottom:15px;">
     <label style="font-size:13px;">Pilih Tanggal:</label>
     <input type="date" id="filterTanggal" style="padding:6px; border-radius:6px; border:1px solid #ccc;">
     <span id="hariInfo" style="margin-left:15px; font-size:13px; color:#555;"></span>
- </div>
 
- <div class="card-data">
+    <a href="{{ route('kepala.laporan.cetak') }}" target="_blank"
+       style="padding:8px 15px; background:#2ecc71; color:white; border-radius:6px; text-decoration:none; font-size:13px;">
+        Cetak Laporan
+    </a>
+</div>
+
+<div class="card-data">
 
     <!-- PEMINJAMAN -->
     <table class="table">
@@ -148,6 +153,7 @@
                 <th>Jatuh tempo</th>
                 <th>Tanggal kembali</th>
                 <th>Denda</th>
+                <th>Kondisi</th> <!-- TAMBAHAN -->
                 <th>Status</th>
             </tr>
         </thead>
@@ -165,6 +171,21 @@
                     $status = 'Tepat waktu';
                     $class = 'hijau';
                 }
+
+                // TAMBAHAN KONDISI
+                if($item->kondisi == 'baik'){
+                    $kondisi = 'Baik';
+                    $kClass = 'hijau';
+                } elseif($item->kondisi == 'rusak'){
+                    $kondisi = 'Rusak';
+                    $kClass = 'oren';
+                } elseif($item->kondisi == 'hilang'){
+                    $kondisi = 'Hilang';
+                    $kClass = 'merah';
+                } else {
+                    $kondisi = '-';
+                    $kClass = 'biru';
+                }
             @endphp
 
             <tr data-tanggal="{{ date('Y-m-d', strtotime($item->tanggal_pinjam)) }}">
@@ -174,6 +195,10 @@
                 <td>{{ $item->tanggal_jatuh_tempo }}</td>
                 <td>{{ $item->tanggal_kembali }}</td>
                 <td>{{ $item->denda ?? '-' }}</td>
+
+                <!-- TAMBAHAN -->
+                <td><span class="badge {{ $kClass }}">{{ $kondisi }}</span></td>
+
                 <td><span class="badge {{ $class }}">{{ $status }}</span></td>
             </tr>
 
@@ -182,7 +207,7 @@
         </tbody>
     </table>
 
- </div>
+</div>
 </div>
 
 <script>

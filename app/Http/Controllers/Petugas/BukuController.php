@@ -256,19 +256,30 @@ class BukuController extends Controller
     }
 
     // Hapus buku
-    public function delete($id)
-    {
-        $buku = Buku::findOrFail($id);
+   public function delete($id)
+   {
+    $buku = Buku::findOrFail($id);
 
-        // Hapus foto jika ada
-        if ($buku->foto) {
-            Storage::disk('public')->delete($buku->foto);
-        }
+    // cek apakah buku masih dipinjam (belum dikembalikan)
+    $masihDipinjam = Peminjaman::where('buku_id', $id)
+                        ->whereNull('tanggal_kembali')
+                        ->exists();
 
-        $buku->delete();
-
-        return redirect()->back();
+    // jika buku sedang di pinjam tidak bisa di hapus
+    if ($masihDipinjam) {
+        return redirect()->back()->with('error', 'Buku sedang dipinjam, tidak bisa dihapus!');
     }
+
+    // Hapus foto jika ada
+    if ($buku->foto) {
+        Storage::disk('public')->delete($buku->foto);
+    }
+
+    // Hapus buku
+    $buku->delete();
+
+    return redirect()->back()->with('success', 'Buku berhasil dihapus');
+}
 
     // Menampilkan data anggota
     public function anggota()

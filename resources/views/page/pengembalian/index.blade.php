@@ -2,7 +2,9 @@
 
 @section('content')
 
-<div style="padding-left:260px; padding-top:40px;">
+
+
+<div style="padding-left:260px; padding-top:5px;">
 
 <h3 style="margin-bottom:30px;">Data Pengembalian</h3>
 
@@ -51,10 +53,9 @@ width:100%;
 <td>
 @php
    if($item->status != 'selesai'){
-
         $status = 'Pending';
     } else {
-        $status = 'Tepat waktu';
+        $status = 'tepat';
         if($item->tanggal_kembali && $item->tanggal_kembali > $item->tanggal_jatuh_tempo){
             $status = 'Terlambat';
         }
@@ -62,34 +63,32 @@ width:100%;
 @endphp
 
 @if($status == 'Pending')
-    <span style="background:#f39c12; color:white; padding:5px 12px; border-radius:8px; font-size:12px; margin-right:8px;">
+    <span style="background:#f39c12; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
     Pending
 </span>
 
-
 @elseif($status == 'Terlambat')
-    <span style="background:#e74c3c; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
-        Terlambat
-    </span>
+    <span style="background:#e74c3c; color:white; padding:5px 12px; border-radius:8px; font-size:12px; margin-right:8px;">
+    Terlambat
+</span>
 @else
     <span style="
     background:#27ae60;
     color:white;
-    padding:5px 12px;
+    padding:5px 10px;
     border-radius:8px;
     font-size:12px;
-    white-space:nowrap;
     display:inline-block;
-    min-width:100px;
-    text-align:center;
 ">
-    Tepat waktu
+    tepat
 </span>
 @endif
 </td>
 
 <!-- AKSI -->
 <td>
+<div style="display:flex; align-items:center; gap:5px;">
+
 @if($status == 'Pending')
     <span style="background:#f39c12; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
         menunggu
@@ -99,6 +98,7 @@ width:100%;
     <span style="background:red; color:white; padding:5px 12px; border-radius:8px; font-size:12px;">
         telat
     </span>
+
 @else
     <span style="
     background:#2d8cf0;
@@ -106,11 +106,12 @@ width:100%;
     padding:5px 12px;
     border-radius:8px;
     font-size:12px;
-    margin-left:10px;
 ">
     tepat
 </span>
 @endif
+
+</div>
 </td>
 
 </tr>

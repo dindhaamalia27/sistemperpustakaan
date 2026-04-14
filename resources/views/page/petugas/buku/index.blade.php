@@ -40,6 +40,12 @@
 
                 <p class="mb-2">{{ $item->judul }}</p>
 
+               @if(\App\Models\Petugas\Peminjaman::where('buku_id', $item->id)->whereNull('tanggal_kembali')->exists())
+            <p style="color:red; font-size:13px; margin-top:-5px;">Sedang dipinjam</p>
+          @else
+         <p style="color:green; font-size:13px; margin-top:-5px;">Tersedia</p>
+         @endif
+
                 <div class="d-flex justify-content-center gap-2">
 
                     <a href="{{ route('petugas.buku.detail', $item->id) }}" class="btn btn-info btn-sm">Detail</a>
