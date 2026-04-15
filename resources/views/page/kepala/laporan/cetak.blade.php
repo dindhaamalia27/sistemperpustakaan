@@ -65,11 +65,5 @@
     @endif
     @endforeach
 </table>
-
-
-
-
-
-
 </body>
 </html>

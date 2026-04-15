@@ -40,11 +40,16 @@
 
                 <p class="mb-2">{{ $item->judul }}</p>
 
-               @if(\App\Models\Petugas\Peminjaman::where('buku_id', $item->id)->whereNull('tanggal_kembali')->exists())
-            <p style="color:red; font-size:13px; margin-top:-5px;">Sedang dipinjam</p>
-          @else
-         <p style="color:green; font-size:13px; margin-top:-5px;">Tersedia</p>
-         @endif
+               @if($item->stok == 0)
+             <p style="color:red; font-size:13px; margin-top:-5px;">Stok habis</p>
+
+            @elseif(\App\Models\Petugas\Peminjaman::where('buku_id', $item->id)->whereNull('tanggal_kembali')->exists())
+           <p style="color:orange; font-size:13px; margin-top:-5px;">Sedang dipinjam</p>
+
+           @else
+          <p style="color:green; font-size:13px; margin-top:-5px;">Tersedia</p>
+          @endif
+
 
                 <div class="d-flex justify-content-center gap-2">
 
@@ -52,11 +57,25 @@
 
                     <a href="{{ route('petugas.buku.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
+                    <!--  BAGIAN YANG DIUBAH -->
                     <form action="{{ route('petugas.buku.delete', $item->id) }}" method="POST" class="m-0">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
+
+                        @if(\App\Models\Petugas\Peminjaman::where('buku_id', $item->id)->whereNull('tanggal_kembali')->exists())
+                            <button type="button" class="btn btn-danger btn-sm"
+                                onclick="alert('Buku sedang dipinjam, tidak bisa dihapus!')">
+                                Hapus
+                            </button>
+                        @else
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Yakin mau hapus buku ini?')">
+                                Hapus
+                            </button>
+                        @endif
+
                     </form>
+                    <!--  END -->
 
                 </div>
             </div>
@@ -65,6 +84,7 @@
     </div>
 </div>
 @endsection
+
 <style>
 .container-fluid {
     max-height: 90vh;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -11,7 +12,9 @@ class DashboardController extends Controller
     public function index()
     {
         // Mengambil data peminjaman terbaru (diurutkan dari yang paling baru)
-        $data = Peminjaman::latest()->get();
+        $data = Peminjaman::where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
         // Menghitung jumlah user dengan role anggota
         $totalAnggota = User::where('role', 'anggota')->count();

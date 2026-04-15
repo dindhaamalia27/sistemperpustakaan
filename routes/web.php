@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 // Route untuk halaman login
 Route::get('/login', function () {
     return view('auth.login');
@@ -76,7 +77,6 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     })->name('denda.index');
 });
 
-
        // ======= DASHBOARD KEPALA =======
     Route::prefix('kepala')->name('kepala.')->group(function () {
 
@@ -102,15 +102,13 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     return view('page.kepala.laporan.index', compact('data'));
      })->name('laporan.index');
 
+    Route::get('/laporan/cetak', [\App\Http\Controllers\Kepala\LaporanController::class, 'cetak'])->name('laporan.cetak');
+    Route::get('/laporan/pdf', [\App\Http\Controllers\Kepala\LaporanController::class, 'pdf'])
+    ->name('laporan.pdf');
 
-Route::get('/laporan/cetak', [\App\Http\Controllers\Kepala\LaporanController::class, 'cetak'])->name('laporan.cetak');
+  // Profil kepala
+  Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
 
-// Profil kepala
-Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
-
-
-    // Profil kepala
-    Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
 
     // ======Tambah petugas ==
         Route::get('/petugas', function () {
@@ -140,7 +138,6 @@ Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index')
     })->name('petugas.store');
 
 
-
     // EDIT
     Route::get('/petugas/{id}/edit', function ($id) {
     $petugas = \App\Models\User::findOrFail($id);
@@ -167,10 +164,10 @@ Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index')
    return redirect()->route('kepala.petugas.index');
    })->name('petugas.destroy');
 
-    });
+ });
 
 
-// ================= BUKU =================
+// ================= BUKU Anggota =================
 Route::get('/buku', [BukuController::class,'index'])->name('buku.index');
 Route::get('/buku/{id}/pinjam', [BukuController::class,'pinjam'])->name('buku.pinjam');
 Route::get('/buku/{id}', [BukuController::class,'detail'])->name('buku.detail');

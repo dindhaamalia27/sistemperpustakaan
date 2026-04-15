@@ -140,6 +140,7 @@
                     <th>Judul Buku</th>
                     <th>Nama Anggota</th>
                     <th>Tanggal Kembali</th>
+                    <th>Kondisi</th> <!-- TAMBAHAN -->
                     <th>Denda</th>
                     <th>Status</th>
                 </tr>
@@ -157,6 +158,9 @@
                         <td>{{ $item->judul_buku }}</td>
                         <td>{{ $item->nama }}</td>
                         <td>{{ $item->tanggal_kembali }}</td>
+
+                        <td>{{ $item->kondisi ?? '-' }}</td> <!-- TAMBAHAN KONDISI -->
+
                         <td>{{ number_format($item->denda, 0, ',', '.') }}</td>
                         <td><span class="badge bg-danger">Ada Denda</span></td>
                     </tr>

@@ -98,6 +98,13 @@
        style="padding:8px 15px; background:#2ecc71; color:white; border-radius:6px; text-decoration:none; font-size:13px;">
         Cetak Laporan
     </a>
+
+    
+    <a href="{{ route('kepala.laporan.pdf') }}" target="_blank"
+       style="padding:8px 15px; background:#e74c3c; color:white; border-radius:6px; text-decoration:none; font-size:13px; margin-left:8px;">
+        PDF
+    </a>
+
 </div>
 
 <div class="card-data">

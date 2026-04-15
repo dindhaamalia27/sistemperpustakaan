@@ -37,6 +37,7 @@
                 @if($user->login_count)
                 <p><strong>Jumlah Login:</strong> {{ $user->login_count }}</p>
                 @endif
+
             </div>
         </div>
 

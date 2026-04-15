@@ -107,7 +107,7 @@
 
 <div class="form-group">
 <label>Tanggal kembali</label>
-<input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', date('Y-m-d')) }}" min="{{ $data->tanggal_pinjam }}" required>
+<input type="date" name="tanggal_kembali" id="tanggal_kembali" value="{{ old('tanggal_kembali', date('Y-m-d')) }}" min="{{ date('Y-m-d') }}" required>
 </div>
 
 <div class="form-group">
